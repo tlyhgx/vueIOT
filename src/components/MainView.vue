@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width">
+  <div class="full-width common-layout">
     <el-container class="layout-container">
       <el-aside class="aside">
         <el-scrollbar>
@@ -10,7 +10,9 @@
               </template>
               <el-menu-item-group>
                 <template #title>次坞</template>
-                <el-menu-item index="1-1">1#2吨机</el-menu-item>
+                <el-menu-item index="1-1"
+                  ><RouterLink to="/cw1_2">1#2吨机</RouterLink>
+                </el-menu-item>
                 <el-menu-item index="1-2">2#2吨机</el-menu-item>
               </el-menu-item-group>
             </el-sub-menu>
@@ -32,7 +34,7 @@
           </el-menu>
         </el-scrollbar>
       </el-aside>
-      <el-main class="custom-main">Main</el-main>
+      <el-main class="custom-main"></el-main>
     </el-container>
   </div>
 </template>
@@ -77,7 +79,7 @@ import { Monitor } from '@element-plus/icons-vue'
   /* background: var(--el-color-primary-light-8); */
 }
 .custom-main {
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 
   width: calc(100% - 240px);
 

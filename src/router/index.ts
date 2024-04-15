@@ -1,6 +1,7 @@
+import N1Device from '@/views/N1Device.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-import MainView from '../views/MainView.vue'
+
 // import AboutView from '@/views/AboutView.vue'
 
 const router = createRouter({
@@ -12,6 +13,11 @@ const router = createRouter({
     //   component: HomeView
     // },
     {
+      path: '/cw1_2',
+      name: 'cw1_2',
+      component: N1Device
+    },
+    {
       path: '/about',
       name: 'about',
       // component:AboutView
@@ -19,17 +25,6 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
-    },
-
-    {
-      path: '/',
-      name: 'main',
-      component: MainView
-      // component:AboutView
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      // component: () => import('../views/MainView.vue')
     }
   ]
 })
