@@ -35,12 +35,12 @@ export default {
           {
             label: '仓底低位温度',
             backgroundColor: '#aa7979',
-            data: [22, 45, 40, 26,11, 53, 29]
+            data: [22, 45, 40, 26, 11, 53, 29]
           },
           {
             label: '仓内温度',
             backgroundColor: '#235422',
-            data: [32, 57, 12, 53,45, 53, 19]
+            data: [32, 57, 12, 53, 45, 53, 19]
           }
         ]
       },

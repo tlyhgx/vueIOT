@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+
 // import HelloWorld from './components/HelloWorld.vue'
 import MainView from './components/MainView.vue'
 </script>
@@ -21,7 +21,7 @@ import MainView from './components/MainView.vue'
 
   <MainView />
 
-  <RouterView />
+  
 </template>
 
 <style scoped>
