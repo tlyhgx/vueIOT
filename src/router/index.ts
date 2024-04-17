@@ -1,5 +1,7 @@
-import N1Device from '@/views/N1Device.vue'
+import CW1_1Device from '@/views/CW1_1Device.vue'
+import CW1_2Device from '@/views/CW1_2Device.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import Test1View from '../views/Test1View.vue'
 // import HomeView from '../views/HomeView.vue'
 
 // import AboutView from '@/views/AboutView.vue'
@@ -7,15 +9,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: HomeView
-    // },
+    {
+      path: '/test1',
+      name: 'test1',
+      component: Test1View
+    },
+    {
+      path: '/cw1_1',
+      name: 'cw1_1',
+      component: CW1_1Device
+    },
     {
       path: '/cw1_2',
       name: 'cw1_2',
-      component: N1Device
+      component: CW1_2Device
     },
     {
       path: '/about',
