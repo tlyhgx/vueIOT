@@ -1,54 +1,37 @@
 <template>
-  <Line :data="data" :options="options" />
+  <p>cssss</p>
 </template>
+<script setup lang="ts">
+import { $mqtt } from 'vue-paho-mqtt'
+import { onMounted, onUnmounted } from 'vue'
+$mqtt.publish('SUBDIS', 'Hello, world!', 'Qr')
+$mqtt.subscribe('PUBDIS', (data: string) => {
+  console.log(data, 'recieved')
+})
 
-<script lang="ts">
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js'
-import { Line } from 'vue-chartjs'
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-export default {
-  name: 'App',
-  components: {
-    Line
-  },
-  data() {
-    return {
-      data: {
-        labels: ['10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40'],
-        datasets: [
-          {
-            label: '仓底高位温度',
-            backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40]
-          },
-          {
-            label: '仓底低位温度',
-            backgroundColor: '#aa7979',
-            data: [22, 45, 40, 26,11, 53, 29]
-          },
-          {
-            label: '仓内温度',
-            backgroundColor: '#235422',
-            data: [32, 57, 12, 53,45, 53, 19]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+onMounted(() => {
+  console.log('测试mqtt')
+  $mqtt.connect({
+    onConnect: () => {
+      console.log('Mqtt connected')
+    },
+    onFailure: () => {
+      console.log('Mqtt connection failed')
+    },
+    onConnectionLost: (error: any) => {
+      console.log('Error:', error.message)
+    },
+    onMessageArrived: (message: { payloadString: string; destinationName: string }) => {
+      console.log('Message Arrived:', message.payloadString, message.destinationName)
     }
-  }
-}
+  })
+})
+
+//BUG:WebSocket connection to 'wss://106.14.181.182:9001/mqtt' failed:
+onUnmounted(() => {
+  console.log('退出mqtt')
+  $mqtt.disconnect()
+  // const result = await $mqtt.disconnect()
+  // console.log( result)
+})
 </script>
