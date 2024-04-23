@@ -27,7 +27,7 @@ onMounted(() => {
   })
 })
 
-//BUG:WebSocket connection to 'wss://106.14.181.182:9001/mqtt' failed:
+//BUG:WebSocket connection to 'wss://106.14.181.182:9001/mqtt' failed:  当本地有其它publish时
 onUnmounted(() => {
   console.log('退出mqtt')
   $mqtt.disconnect()
