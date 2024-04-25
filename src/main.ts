@@ -20,8 +20,8 @@ const app = createApp(App).use(
       port: 9001,
       username: 'cjkj',
       password: 'cjkj5215',
-      clientId: `cj24001011`,
-      mainTopic: '/CJ2400101'
+      clientId: `MyID-${Math.random() * 9999}`,   
+      mainTopic: ''
     }
   })
 )

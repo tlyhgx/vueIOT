@@ -54,7 +54,7 @@
             <div class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
               <p class="dio_title">输出信号状态</p>
               <div class="group-container">
-                <!-- //TODO22:isWork后面要改成变量赋值，第一个上料紧停是个常闭按钮 -->
+                <!-- //TODO22:isWork后面要改成变量赋值 -->
                 <DIOStateDisplay class="group-item-DO" name="1#加热" :isWork="true" />
                 <DIOStateDisplay class="group-item-DO" name="2#加热" :isWork="false" />
                 <DIOStateDisplay class="group-item-DO" name="3#加热" :isWork="true" />
