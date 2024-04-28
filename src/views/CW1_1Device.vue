@@ -37,16 +37,23 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="12" class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
+          <el-col
+            :span="12"
+            class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border"
+          >
             <el-row>
               <div>
-                <img alt="设备图片" src="@/assets/kitchen waste.png" style="padding: 60px 0 0 60px" />
+                <img
+                  alt="设备图片"
+                  src="@/assets/kitchen waste.png"
+                  style="padding: 60px 0 0 60px"
+                />
               </div>
             </el-row>
             <el-row justify="center">
-              <div style="display: flex;padding-top:50px">
+              <div style="display: flex; padding-top: 50px">
                 <DIOStateDisplay name="工作" :isWork="true" />
-                <DIOStateDisplay style="margin-left: 30px;" name="停止" :isWork="false" />
+                <DIOStateDisplay style="margin-left: 30px" name="停止" :isWork="false" />
               </div>
             </el-row>
           </el-col>
@@ -128,12 +135,12 @@
   </el-row>
 </template>
 <script lang="ts" setup>
+import { ref, onUnmounted, onMounted } from 'vue'
+import mqtt from 'mqtt'
 import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
-// import { ref } from 'vue'
 
-// const isWork = ref(true)
 const activities = [
   {
     timestamp: '09:10',
@@ -152,6 +159,77 @@ const activities = [
     content: '1#温度太高！'
   }
 ]
+
+const connected = ref(false)
+// Connection options
+//https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
+//https://www.emqx.com/en/blog/mqtt-js-tutorial
+const options = {
+  clean: true,
+  connectTimeout: 4000,
+  clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+  username: 'cjkj',
+  password: 'cjkj5215',
+  keepalive: 60,
+  reconnectPeriod: 1000,
+  will: {
+    topic: '/will',
+    payload: 'Offline',
+    qos: 1,
+    retain: true
+  },
+  protocolVersion: 4
+}
+const client = mqtt.connect('ws://106.14.181.182:9001', options)
+
+const messages = ref([])
+
+function readCoil() {
+  //0A01000000177D7F
+  let hexArray: string[] = ['0A', '01', '00', '00', '00', '17', '7D', '7F']
+
+  // 转换为字节数组
+  let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
+  console.log(bytes)
+  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+}
+
+let timer: ReturnType<typeof setInterval> | null = null
+
+client.on('connect', () => {
+  console.log('connected')
+  connected.value = true
+  client.subscribe('/CJ2400101/PUBDIS', { qos: 0 }, (err) => {
+    if (!err) {
+      console.log('subscribed  dio')
+      // client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
+    }
+  })
+})
+
+client.on('message', (topic, message) => {
+  const msgRecieved = message.toString()
+  console.log('sssssssssss')
+  console.log(msgRecieved)
+  const encoder = new TextEncoder()
+  const result = encoder.encode(msgRecieved)
+  // console.log('sssssssss')
+  console.log(result)
+  // messages.value.push(result)
+})
+onMounted(() => {
+  timer = setInterval(() => {
+    readCoil()
+  }, 3000)
+})
+onUnmounted(() => {
+  client.end()
+  connected.value = false
+  console.log('exit')
+  if (timer) {
+    clearInterval(timer)
+  }
+})
 </script>
 <style>
 .header {

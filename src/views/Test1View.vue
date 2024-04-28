@@ -25,9 +25,7 @@ const options = {
 const client = mqtt.connect('ws://106.14.181.182:9001', options)
 
 const messages = ref([])
-// function strToByteArray(str: string) {
-//   return new TextEncoder().encode(str)
-// }
+
 function outPut() {
   // let ask: string = '0A050009FF005D43'
 
@@ -51,22 +49,20 @@ function outPutOff() {
   client.publish('/CJ2400101/SUBDIS', bytesOff)
 }
 function readCoil() {
-  //0A010001000F
-  //0A01000100032CB0
-  //0A0100080003FCB2
+
   let hexArray: string[] = ['0A', '01', '00', '08', '00', '03', 'FC', 'B2']
-  // let hexArray: string[] = ['0A', '01', '00', '01', '00', '03', '2C', 'B0']
+
 
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
-
+//TODO222:connected 代表 是否 连接到 mqtt服务器,还需要 状态 ：设备是否在线，设备是否运行
 client.on('connect', () => {
   console.log('connected')
   connected.value = true
-  client.subscribe('/CJ2400101/PUBDIS',{ qos: 0 }, (err) => {
+  client.subscribe('/CJ2400101/PUBDIS', { qos: 0 }, (err) => {
     if (!err) {
       console.log('subscribed')
       client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
@@ -75,16 +71,10 @@ client.on('connect', () => {
 })
 
 client.on('message', (topic, message) => {
-  console.log('message', topic, message.toString())
-  // console.log('ssssssss')
-
-  let sss = message.toString()
-  const str1 = sss
+  const msgRecieved = message.toString()
   const encoder = new TextEncoder()
-  const result = encoder.encode(str1)
+  const result = encoder.encode(msgRecieved)
   console.log(result)
-  // message is Buffer
-  messages.value.push(message.toString())
   messages.value.push(result)
 })
 
