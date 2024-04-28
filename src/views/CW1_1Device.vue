@@ -131,7 +131,7 @@
 import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
-import { ref } from 'vue'
+// import { ref } from 'vue'
 
 // const isWork = ref(true)
 const activities = [

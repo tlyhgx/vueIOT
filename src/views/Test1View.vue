@@ -1,31 +1,33 @@
-<template>
-  <el-button type="success" @click="outPut"> 打开1.1</el-button>
-  <el-button type="success" @click="outPutOff"> 关闭1.1</el-button>
-  <el-button type="success" @click="readCoil"> 读取DO</el-button>
-</template>
 <script setup lang="ts">
-import { $mqtt } from 'vue-paho-mqtt'
-import { onMounted, onUnmounted } from 'vue'
+import { ref, onUnmounted } from 'vue'
+import mqtt from 'mqtt'
 
-function outPutOff() {
-  // let askOff: string = '0A05000900001CB3'
-
-  let hexArrayOff: string[] = ['0A', '05', '00', '09', '00', '00', '1C', 'B3']
-
-  // 转换为字节数组
-
-  let bytesOff: Uint8Array = new Uint8Array(hexArrayOff.map((h) => parseInt(h, 16)))
-  $mqtt.publish('CJ2400101/SUBDIS', bytesOff, 'B')
+const connected = ref(false)
+// Connection options
+//https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
+//https://www.emqx.com/en/blog/mqtt-js-tutorial
+const options = {
+  clean: true,
+  connectTimeout: 4000,
+  clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+  username: 'cjkj',
+  password: 'cjkj5215',
+  keepalive: 60,
+  reconnectPeriod: 1000,
+  will: {
+    topic: '/will',
+    payload: 'Offline',
+    qos: 1,
+    retain: true
+  },
+  protocolVersion: 4
 }
-function readCoil() {
-  //0A010001000F
-  let hexArray: string[] = ['0A', '01', '00', '01', '00', '0F', '2C', 'B5']
+const client = mqtt.connect('ws://106.14.181.182:9001', options)
 
-  // 转换为字节数组
-  let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
-
-  $mqtt.publish('CJ2400101/SUBDIS', bytes, 'B')
-}
+const messages = ref([])
+// function strToByteArray(str: string) {
+//   return new TextEncoder().encode(str)
+// }
 function outPut() {
   // let ask: string = '0A050009FF005D43'
 
@@ -36,48 +38,90 @@ function outPut() {
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
 
   // console.log(bytes)
-  $mqtt.publish('CJ2400101/SUBDIS', bytes, 'B')
+  client.publish('/CJ2400101/SUBDIS', bytes)
+}
+function outPutOff() {
+  // let askOff: string = '0A05000900001CB3'
+
+  let hexArrayOff: string[] = ['0A', '05', '00', '09', '00', '00', '1C', 'B3']
+
+  // 转换为字节数组
+
+  let bytesOff: Uint8Array = new Uint8Array(hexArrayOff.map((h) => parseInt(h, 16)))
+  client.publish('/CJ2400101/SUBDIS', bytesOff)
+}
+function readCoil() {
+  //0A010001000F
+  //0A01000100032CB0
+  //0A0100080003FCB2
+  let hexArray: string[] = ['0A', '01', '00', '08', '00', '03', 'FC', 'B2']
+  // let hexArray: string[] = ['0A', '01', '00', '01', '00', '03', '2C', 'B0']
+
+  // 转换为字节数组
+  let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
+  console.log(bytes)
+  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
 
-const connect = async () => {
-  await $mqtt.connect({
-    onConnect: () => {
-      console.log('Mqtt connected')
-    },
-    onFailure: () => {
-      console.log('Mqtt connection failed')
-    },
-    onConnectionLost: (error: any) => {
-      console.log('Error:', error.message)
-    },
-    onMessageArrived: (message: { payloadString: string; destinationName: string }) => {
-      console.log('Message Arrived:', message.payloadString, message.destinationName)
+client.on('connect', () => {
+  console.log('connected')
+  connected.value = true
+  client.subscribe('/CJ2400101/PUBDIS',{ qos: 0 }, (err) => {
+    if (!err) {
+      console.log('subscribed')
+      client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
     }
   })
-}
-const subscript = async () => {
-  $mqtt.subscribe('CJ2400101/PUBDIS', (data: string) => {
-    console.log(data, 'recieved')
-    console.log(data.length)
-    console.log(data.charCodeAt(0))
-    console.log(data.charCodeAt(1))
-    // console.log(parseInt(data))
-  })
-}
-onMounted(async () => {
-  console.log('测试mqtt')
-  await connect()
-  await subscript()
-
-  // await
 })
 
-//BUG:WebSocket connection to 'wss://106.14.181.182:9001/mqtt' failed:
-// 当本地有输出远程开启publish时;远程关闭不会
+client.on('message', (topic, message) => {
+  console.log('message', topic, message.toString())
+  // console.log('ssssssss')
+
+  let sss = message.toString()
+  const str1 = sss
+  const encoder = new TextEncoder()
+  const result = encoder.encode(str1)
+  console.log(result)
+  // message is Buffer
+  messages.value.push(message.toString())
+  messages.value.push(result)
+})
+
+client.on('close', () => {
+  console.log('close')
+  connected.value = false
+})
 onUnmounted(() => {
-  console.log('退出mqtt')
-  $mqtt.disconnect()
-  // const result = await $mqtt.disconnect()
-  // console.log( result)
+  client.end()
+  connected.value = false
+  console.log('exit')
 })
 </script>
+
+<template>
+  <main>
+    <h1>MQTTjs VITE Example</h1>
+    <p>
+      MQTTjs is a simple MQTT client for the browser. It uses WebSockets to connect to an MQTT
+      broker.
+    </p>
+    <p>
+      This example uses the public MQTT broker at
+      <a href="https://test.mosquitto.org/">test.mosquitto.org</a>.
+    </p>
+
+    <p>Status: {{ connected ? 'Connected' : 'Disconnected' }}</p>
+    <p>
+      <button @click="client.publish('/CJ2400101/SUBDIS', 'Hello mqtt')">Publish</button>
+      <button @click="outPut">Publish On0.9</button>
+      <button @click="outPutOff">Publish Off0.9</button>
+      <button @click="readCoil">read 0.9</button>
+      <button @click="client.end()">Disconnect</button>
+    </p>
+    <p>Messages:</p>
+    <ul>
+      <li v-for="message in messages" :key="message">{{ message }}</li>
+    </ul>
+  </main>
+</template>
