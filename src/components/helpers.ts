@@ -27,7 +27,7 @@ export function bytesToBitArray(bytes: number[]) {
   // console.log(bytes)
   bytes.forEach((value) => {
     // console.log(`Index: ${index}, Value: ${value}`);
-    const tmp: boolean[] = byteToBitArray(value)
+    const tmp: boolean[] = byteToBitArray(value).reverse()  //这里反转是为了点的顺序从左边第一位开始
     tmp.forEach((value) => {
       bitArray.push(value)
     })

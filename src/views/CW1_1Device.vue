@@ -21,19 +21,59 @@
               <p class="dio_title">输入信号状态</p>
               <div class="group-container">
                 <!-- //TODO22:isWork后面要改成变量赋值，第一个上料紧停是个常闭按钮 -->
-                <DIOStateDisplay class="group-item" name="上料紧停按钮" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="上限位" :isWork="false" />
-                <DIOStateDisplay class="group-item" name="下限位" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="出料启动" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="搅拌A正转" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="搅拌A反转" :isWork="false" />
-                <DIOStateDisplay class="group-item" name="搅拌B正转" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="破碎压榨正转" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="破碎压榨反转" :isWork="false" />
-                <DIOStateDisplay class="group-item" name="液压泵" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="不锈钢风机" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="喷淋塔电机" :isWork="true" />
-                <DIOStateDisplay class="group-item" name="自吸式水泵" :isWork="false" />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="上料紧停按钮"
+                  :isWork="!DI_state_bitArray[0]"
+                />
+                <DIOStateDisplay class="group-item" name="上限位" :isWork="DI_state_bitArray[6]" />
+                <DIOStateDisplay class="group-item" name="下限位" :isWork="DI_state_bitArray[7]" />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="出料启动"
+                  :isWork="DI_state_bitArray[8]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="搅拌A正转"
+                  :isWork="DI_state_bitArray[9]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="搅拌A反转"
+                  :isWork="DI_state_bitArray[10]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="搅拌B正转"
+                  :isWork="DI_state_bitArray[11]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="破碎压榨正转"
+                  :isWork="DI_state_bitArray[12]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="破碎压榨反转"
+                  :isWork="DI_state_bitArray[13]"
+                />
+                <DIOStateDisplay class="group-item" name="液压泵" :isWork="DI_state_bitArray[14]" />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="不锈钢风机"
+                  :isWork="DI_state_bitArray[15]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="喷淋塔电机"
+                  :isWork="DI_state_bitArray[16]"
+                />
+                <DIOStateDisplay
+                  class="group-item"
+                  name="自吸式水泵"
+                  :isWork="DI_state_bitArray[17]"
+                />
               </div>
             </div>
           </el-col>
@@ -42,11 +82,11 @@
             class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border"
           >
             <el-row>
-              <div>
+              <div style="width: 100%">
                 <img
                   alt="设备图片"
                   src="@/assets/kitchen waste.png"
-                  style="padding: 60px 0 0 60px"
+                  style="width: 100%; height: auto"
                 />
               </div>
             </el-row>
@@ -61,24 +101,91 @@
             <div class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
               <p class="dio_title">输出信号状态</p>
               <div class="group-container">
-                <!-- //TODO22:isWork后面要改成变量赋值 -->
-                <DIOStateDisplay class="group-item-DO" name="1#加热" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="2#加热" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="3#加热" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="4#加热" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌A正转" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌A反转" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌B正转" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="破碎压榨正转" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="破碎压榨反转" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="液压泵" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="不锈钢风机" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="喷淋塔电机" :isWork="true" />
-                <DIOStateDisplay class="group-item-DO" name="自吸式水泵" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="提升机上升" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="提升机下降" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="压榨冲洗" :isWork="false" />
-                <DIOStateDisplay class="group-item-DO" name="外接冲洗" :isWork="false" />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="1#加热"
+                  :isWork="DO_state_bitArray[0]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="2#加热"
+                  :isWork="DO_state_bitArray[1]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="3#加热"
+                  :isWork="DO_state_bitArray[2]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="4#加热"
+                  :isWork="DO_state_bitArray[3]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="搅拌A正转"
+                  :isWork="DO_state_bitArray[8]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="搅拌A反转"
+                  :isWork="DO_state_bitArray[9]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="搅拌B正转"
+                  :isWork="DO_state_bitArray[10]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="破碎压榨正转"
+                  :isWork="DO_state_bitArray[11]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="破碎压榨反转"
+                  :isWork="DO_state_bitArray[12]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="液压泵"
+                  :isWork="DO_state_bitArray[13]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="不锈钢风机"
+                  :isWork="DO_state_bitArray[14]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="喷淋塔电机"
+                  :isWork="DO_state_bitArray[15]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="自吸式水泵"
+                  :isWork="DO_state_bitArray[16]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="提升机上升"
+                  :isWork="DO_state_bitArray[17]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="提升机下降"
+                  :isWork="DO_state_bitArray[18]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="压榨冲洗"
+                  :isWork="DO_state_bitArray[19]"
+                />
+                <DIOStateDisplay
+                  class="group-item-DO"
+                  name="外接冲洗"
+                  :isWork="DO_state_bitArray[20]"
+                />
               </div>
             </div>
           </el-col>
@@ -140,7 +247,7 @@ import mqtt from 'mqtt'
 import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
-
+import { bytesToBitArray } from '@/components/helpers'
 const activities = [
   {
     timestamp: '09:10',
@@ -159,7 +266,9 @@ const activities = [
     content: '1#温度太高！'
   }
 ]
-
+let timer: ReturnType<typeof setInterval> | null = null
+const DO_state_bitArray = ref([]) //输出状态组
+const DI_state_bitArray = ref([]) //输出状态组
 const connected = ref(false)
 // Connection options
 //https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
@@ -182,7 +291,7 @@ const options = {
 }
 const client = mqtt.connect('ws://106.14.181.182:9001', options)
 
-const messages = ref([])
+// const messages = ref([])
 
 function readCoil() {
   //0A01000000177D7F
@@ -193,8 +302,15 @@ function readCoil() {
   console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
+function readDiscreteInputs() {
+  //0A0200000017397F
+  let hexArray: string[] = ['0A', '02', '00', '00', '00', '17', '39', '7F']
 
-let timer: ReturnType<typeof setInterval> | null = null
+  // 转换为字节数组
+  let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
+  console.log(bytes)
+  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+}
 
 client.on('connect', () => {
   console.log('connected')
@@ -209,18 +325,32 @@ client.on('connect', () => {
 
 client.on('message', (topic, message) => {
   const msgRecieved = message.toString()
-  console.log('sssssssssss')
-  console.log(msgRecieved)
+  // console.log('sssssssssss')
+  // console.log(msgRecieved)
   const encoder = new TextEncoder()
   const result = encoder.encode(msgRecieved)
+
+  if (result[1] == 1) {
+    DO_state_bitArray.value = bytesToBitArray(result.slice(3, 6))
+    console.log(DO_state_bitArray.value)
+  } else if (result[1] == 2) {
+    DI_state_bitArray.value = bytesToBitArray(result.slice(3, 6))
+    console.log(DI_state_bitArray.value)
+  }
+
   // console.log('sssssssss')
-  console.log(result)
+  // console.log(result)
   // messages.value.push(result)
 })
 onMounted(() => {
   timer = setInterval(() => {
-    readCoil()
-  }, 3000)
+    readDiscreteInputs()
+    setTimeout(() => {
+      console.log('1', '读取输出状态')
+      readCoil()
+      // resolve('done');
+    }, 2000)
+  }, 5000)
 })
 onUnmounted(() => {
   client.end()

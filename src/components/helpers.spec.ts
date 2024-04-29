@@ -23,7 +23,8 @@ test('byteToBitArray', () => {
 
 test('bytesToBitArray', () => {
   const res: boolean[] = bytesToBitArray([0x31, 0x01])
-  expect(res).toEqual([0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1])
+  // expect(res).toEqual([0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1])
+  expect(res).toEqual([1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
 })
 
 test('stringToUint8Array', () => {

@@ -6,7 +6,6 @@
           <img alt="logo" class="logo" src="@/assets/CJlogo.png" width="35" height="40" />
           <h3 style="position: relative; top: 15px; left: 6px">崇峻科技</h3>
         </div>
-        <!-- //TODO: 此处要提取到其它位置 -->
         <!-- //HACK22:选取时，颜色应该变色，但1，2项没有变色 -->
         <el-menu
           :default-openeds="['1', '3']"
@@ -55,15 +54,8 @@
 </template>
 
 <script lang="ts" setup>
-// import { ref } from 'vue'
 import { Monitor } from '@element-plus/icons-vue'
 import { RouterLink, RouterView } from 'vue-router'
-// const item = {
-//   date: '2016-05-02',
-//   name: 'Tom',
-//   address: 'No. 189, Grove St, Los Angeles'
-// }
-// const tableData = ref(Array.from({ length: 20 }).fill(item))
 </script>
 <style scoped>
 .aside {
