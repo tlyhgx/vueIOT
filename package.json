@@ -15,11 +15,14 @@
   },
   "dependencies": {
     "chart.js": "^4.4.2",
+    "echarts": "^5.5.0",
     "element-plus": "^2.7.0",
     "mqtt": "^5.5.4",
     "pinia": "^2.1.7",
+    "utf8": "^3.0.0",
     "vue": "^3.4.21",
     "vue-chartjs": "^5.3.1",
+    "vue-echarts": "^6.7.1",
     "vue-paho-mqtt": "^0.6.0",
     "vue-router": "^4.3.0"
   },

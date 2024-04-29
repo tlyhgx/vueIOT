@@ -1,54 +1,71 @@
 <template>
-  <Line :data="data" :options="options" />
+  <div>
+    <div ref="chart" style="width: 100%; height: 100%"></div>
+  </div>
 </template>
 
-<script lang="ts">
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js'
-import { Line } from 'vue-chartjs'
+<script setup lang="ts">
+import { onMounted, ref, watch, defineProps } from 'vue'
+import * as echarts from 'echarts'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-export default {
-  name: 'App',
-  components: {
-    Line
-  },
-  data() {
-    return {
-      data: {
-        labels: ['10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40'],
-        datasets: [
-          {
-            label: '仓底高位温度',
-            backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40]
-          },
-          {
-            label: '仓底低位温度',
-            backgroundColor: '#aa7979',
-            data: [22, 45, 40, 26, 11, 53, 29]
-          },
-          {
-            label: '仓内温度',
-            backgroundColor: '#235422',
-            data: [32, 57, 12, 53, 45, 53, 19]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    }
-  }
+const chart = ref(null)
+const props = defineProps({
+  input_temp1: Number,
+  input_temp2: Number,
+  input_temp3: Number,
+  input_time: String
+})
+let temp_time: string[] = []
+let temp1s: number[] = []
+let temp2s: number[] = []
+let temp3s: number[] = []
+function dataChanged() {
+  console.log('cssssssss')
+  console.log(props.input_time)
+  temp_time.push(props.input_time)
+  temp1s.push(props.input_temp1)
+  temp2s.push(props.input_temp2)
+  temp3s.push(props.input_temp3)
+  setChart()
 }
+function setChart() {
+  const myChart = echarts.init(chart.value)
+
+  const option = {
+    title: {
+      // text: '温度实时曲线'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['仓底高位温度', '仓底低位温度', '仓内温度']
+    },
+    xAxis: {
+      data: temp_time
+    },
+    yAxis: {},
+    series: [
+      {
+        name: '仓底高位温度',
+        type: 'line',
+        data: temp1s
+      },
+      {
+        name: '仓底低位温度',
+        type: 'line',
+        data: temp2s
+      },
+      {
+        name: '仓内温度',
+        type: 'line',
+        data: temp3s
+      }
+    ]
+  }
+
+  myChart.setOption(option)
+}
+watch(() => props.input_time, dataChanged)
+onMounted(setChart)
 </script>

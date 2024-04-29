@@ -6,9 +6,9 @@
         餐厨垃圾处理设备<span class="subheading">诸暨次坞001--2吨</span>
       </div>
     </el-col>
-    <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em"
-      ><DIOStateDisplay name="在线" :isWork="true"
-    /></el-col>
+    <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
+      <DIOStateDisplay name="在线" :isWork="true" />
+    </el-col>
     <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
   </el-row>
 
@@ -20,74 +20,27 @@
             <div class="subbgcolor di-state-display left-first-line shadow-border">
               <p class="dio_title">输入信号状态</p>
               <div class="group-container">
-                <!-- //TODO22:isWork后面要改成变量赋值，第一个上料紧停是个常闭按钮 -->
-                <DIOStateDisplay
-                  class="group-item"
-                  name="上料紧停按钮"
-                  :isWork="!DI_state_bitArray[0]"
-                />
+                <!-- 第一个上料紧停是个常闭按钮 -->
+                <DIOStateDisplay class="group-item" name="上料紧停按钮（常闭）" :isWork="!DI_state_bitArray[0]" />
                 <DIOStateDisplay class="group-item" name="上限位" :isWork="DI_state_bitArray[6]" />
                 <DIOStateDisplay class="group-item" name="下限位" :isWork="DI_state_bitArray[7]" />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="出料启动"
-                  :isWork="DI_state_bitArray[8]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="搅拌A正转"
-                  :isWork="DI_state_bitArray[9]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="搅拌A反转"
-                  :isWork="DI_state_bitArray[10]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="搅拌B正转"
-                  :isWork="DI_state_bitArray[11]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="破碎压榨正转"
-                  :isWork="DI_state_bitArray[12]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="破碎压榨反转"
-                  :isWork="DI_state_bitArray[13]"
-                />
+                <DIOStateDisplay class="group-item" name="出料启动" :isWork="DI_state_bitArray[8]" />
+                <DIOStateDisplay class="group-item" name="搅拌A正转" :isWork="DI_state_bitArray[9]" />
+                <DIOStateDisplay class="group-item" name="搅拌A反转" :isWork="DI_state_bitArray[10]" />
+                <DIOStateDisplay class="group-item" name="搅拌B正转" :isWork="DI_state_bitArray[11]" />
+                <DIOStateDisplay class="group-item" name="破碎压榨正转" :isWork="DI_state_bitArray[12]" />
+                <DIOStateDisplay class="group-item" name="破碎压榨反转" :isWork="DI_state_bitArray[13]" />
                 <DIOStateDisplay class="group-item" name="液压泵" :isWork="DI_state_bitArray[14]" />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="不锈钢风机"
-                  :isWork="DI_state_bitArray[15]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="喷淋塔电机"
-                  :isWork="DI_state_bitArray[16]"
-                />
-                <DIOStateDisplay
-                  class="group-item"
-                  name="自吸式水泵"
-                  :isWork="DI_state_bitArray[17]"
-                />
+                <DIOStateDisplay class="group-item" name="不锈钢风机" :isWork="DI_state_bitArray[15]" />
+                <DIOStateDisplay class="group-item" name="喷淋塔电机" :isWork="DI_state_bitArray[16]" />
+                <DIOStateDisplay class="group-item" name="自吸式水泵" :isWork="DI_state_bitArray[17]" />
               </div>
             </div>
           </el-col>
-          <el-col
-            :span="12"
-            class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border"
-          >
+          <el-col :span="12" class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
             <el-row>
               <div style="width: 100%">
-                <img
-                  alt="设备图片"
-                  src="@/assets/kitchen waste.png"
-                  style="width: 100%; height: auto"
-                />
+                <img alt="设备图片" src="@/assets/kitchen waste.png" style="width: 100%; height: auto" />
               </div>
             </el-row>
             <el-row justify="center">
@@ -101,91 +54,23 @@
             <div class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
               <p class="dio_title">输出信号状态</p>
               <div class="group-container">
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="1#加热"
-                  :isWork="DO_state_bitArray[0]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="2#加热"
-                  :isWork="DO_state_bitArray[1]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="3#加热"
-                  :isWork="DO_state_bitArray[2]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="4#加热"
-                  :isWork="DO_state_bitArray[3]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="搅拌A正转"
-                  :isWork="DO_state_bitArray[8]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="搅拌A反转"
-                  :isWork="DO_state_bitArray[9]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="搅拌B正转"
-                  :isWork="DO_state_bitArray[10]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="破碎压榨正转"
-                  :isWork="DO_state_bitArray[11]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="破碎压榨反转"
-                  :isWork="DO_state_bitArray[12]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="液压泵"
-                  :isWork="DO_state_bitArray[13]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="不锈钢风机"
-                  :isWork="DO_state_bitArray[14]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="喷淋塔电机"
-                  :isWork="DO_state_bitArray[15]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="自吸式水泵"
-                  :isWork="DO_state_bitArray[16]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="提升机上升"
-                  :isWork="DO_state_bitArray[17]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="提升机下降"
-                  :isWork="DO_state_bitArray[18]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="压榨冲洗"
-                  :isWork="DO_state_bitArray[19]"
-                />
-                <DIOStateDisplay
-                  class="group-item-DO"
-                  name="外接冲洗"
-                  :isWork="DO_state_bitArray[20]"
-                />
+                <DIOStateDisplay class="group-item-DO" name="1#加热" :isWork="DO_state_bitArray[0]" />
+                <DIOStateDisplay class="group-item-DO" name="2#加热" :isWork="DO_state_bitArray[1]" />
+                <DIOStateDisplay class="group-item-DO" name="3#加热" :isWork="DO_state_bitArray[2]" />
+                <DIOStateDisplay class="group-item-DO" name="4#加热" :isWork="DO_state_bitArray[3]" />
+                <DIOStateDisplay class="group-item-DO" name="搅拌A正转" :isWork="DO_state_bitArray[8]" />
+                <DIOStateDisplay class="group-item-DO" name="搅拌A反转" :isWork="DO_state_bitArray[9]" />
+                <DIOStateDisplay class="group-item-DO" name="搅拌B正转" :isWork="DO_state_bitArray[10]" />
+                <DIOStateDisplay class="group-item-DO" name="破碎压榨正转" :isWork="DO_state_bitArray[11]" />
+                <DIOStateDisplay class="group-item-DO" name="破碎压榨反转" :isWork="DO_state_bitArray[12]" />
+                <DIOStateDisplay class="group-item-DO" name="液压泵" :isWork="DO_state_bitArray[13]" />
+                <DIOStateDisplay class="group-item-DO" name="不锈钢风机" :isWork="DO_state_bitArray[14]" />
+                <DIOStateDisplay class="group-item-DO" name="喷淋塔电机" :isWork="DO_state_bitArray[15]" />
+                <DIOStateDisplay class="group-item-DO" name="自吸式水泵" :isWork="DO_state_bitArray[16]" />
+                <DIOStateDisplay class="group-item-DO" name="提升机上升" :isWork="DO_state_bitArray[17]" />
+                <DIOStateDisplay class="group-item-DO" name="提升机下降" :isWork="DO_state_bitArray[18]" />
+                <DIOStateDisplay class="group-item-DO" name="压榨冲洗" :isWork="DO_state_bitArray[19]" />
+                <DIOStateDisplay class="group-item-DO" name="外接冲洗" :isWork="DO_state_bitArray[20]" />
               </div>
             </div>
           </el-col>
@@ -194,23 +79,18 @@
         <el-row gutter="10">
           <el-col :span="18">
             <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border">
-              温度实时曲线
-              <LineChartStyle01 />
+              <!-- 温度实时曲线 -->
+              <LineChartStyle01 style="width: 100%; height: 110%;padding-top:10px" :input_temp1="AI_temp1_data"
+                :input_temp2="AI_temp2_data" :input_temp3="AI_temp3_data" :input_time="AI_temp_time" />
             </div>
           </el-col>
           <!-- //HACK:是否需要日期选择 -->
           <!-- //HACK22:此处要增加scroll ,会不会自动产生 -->
+          <!--实时报警-->
           <el-col :span="6">
-            <div
-              class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border"
-              style="padding-top: 15px"
-            >
+            <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border" style="padding-top: 15px">
               <el-timeline style="max-width: 600px">
-                <el-timeline-item
-                  v-for="(activity, index) in activities"
-                  :key="index"
-                  :timestamp="activity.timestamp"
-                >
+                <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp">
                   <div style="color: red">{{ activity.content }}</div>
                 </el-timeline-item>
               </el-timeline>
@@ -247,7 +127,8 @@ import mqtt from 'mqtt'
 import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
-import { bytesToBitArray } from '@/components/helpers'
+import { bytesToBitArray, bytes4_Float } from '@/components/helpers'
+
 const activities = [
   {
     timestamp: '09:10',
@@ -268,14 +149,20 @@ const activities = [
 ]
 let timer: ReturnType<typeof setInterval> | null = null
 const DO_state_bitArray = ref([]) //输出状态组
-const DI_state_bitArray = ref([]) //输出状态组
+const DI_state_bitArray = ref([]) //输入状态组
+const AI_temp1_data: number = ref() //模拟量1
+const AI_temp2_data: number = ref() //模拟量2
+const AI_temp3_data: number = ref() //模拟量3
+const AI_temp_time: string = ref() //时间
 const connected = ref(false)
+
 // Connection options
 //https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
 //https://www.emqx.com/en/blog/mqtt-js-tutorial
+
 const options = {
   clean: true,
-  connectTimeout: 4000,
+  connectTimeout: 6000,
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
   username: 'cjkj',
   password: 'cjkj5215',
@@ -299,7 +186,7 @@ function readCoil() {
 
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
-  console.log(bytes)
+  // console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
 function readDiscreteInputs() {
@@ -308,10 +195,21 @@ function readDiscreteInputs() {
 
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
-  console.log(bytes)
+  // console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
+function readHoldingRegister() {
+  //0A03004d000654A4
+  //0A03004d00011566
+  // let hexArray: string[] = ['0A', '03', '00', '4D', '00', '01', '15', '66']
+  let hexArray: string[] = ['0A', '03', '00', '4D', '00', '06', '54', 'A4']
 
+  // 转换为字节数组
+  let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
+
+  // console.log(bytes)
+  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+}
 client.on('connect', () => {
   console.log('connected')
   connected.value = true
@@ -324,33 +222,48 @@ client.on('connect', () => {
 })
 
 client.on('message', (topic, message) => {
-  const msgRecieved = message.toString()
-  // console.log('sssssssssss')
-  // console.log(msgRecieved)
-  const encoder = new TextEncoder()
-  const result = encoder.encode(msgRecieved)
+  // console.log(message)
 
-  if (result[1] == 1) {
-    DO_state_bitArray.value = bytesToBitArray(result.slice(3, 6))
-    console.log(DO_state_bitArray.value)
-  } else if (result[1] == 2) {
-    DI_state_bitArray.value = bytesToBitArray(result.slice(3, 6))
-    console.log(DI_state_bitArray.value)
+  if (message[1] == 1) {
+    DO_state_bitArray.value = bytesToBitArray(message.slice(3, 6))
+    // console.log(DO_state_bitArray.value)
+  } else if (message[1] == 2) {
+    DI_state_bitArray.value = bytesToBitArray(message.slice(3, 6))
+    // console.log(DI_state_bitArray.value)
+  } else if (message[1] == 3) {
+    // 获取当前日期和时间
+    const now = new Date() //TODO22:这里 now 和 time 初始化，最好可以放在前面
+    // 获取当前时间
+    const time = now.toTimeString()
+    let floatValue = bytes4_Float(message.slice(3, 7))
+
+    console.log(floatValue)
+    floatValue = bytes4_Float(message.slice(7, 11))
+    console.log(floatValue)
+    floatValue = bytes4_Float(message.slice(11, 15))
+    console.log(floatValue)
+    console.log(time.slice(0, 8))
+    AI_temp1_data.value = bytes4_Float(message.slice(3, 7))
+    AI_temp2_data.value = bytes4_Float(message.slice(7, 11))
+    AI_temp3_data.value = bytes4_Float(message.slice(11, 15))
+    AI_temp_time.value = time.slice(0, 8)
+    // AI_temp_times.value.push()
+    // AI_temp1_datas.value.push(bytes4_Float(message.slice(3, 7)))
+    // AI_temp2_datas.value.push(bytes4_Float(message.slice(7, 11)))
+    // AI_temp3_datas.value.push(bytes4_Float(message.slice(11, 15)))
   }
-
-  // console.log('sssssssss')
-  // console.log(result)
-  // messages.value.push(result)
 })
 onMounted(() => {
   timer = setInterval(() => {
     readDiscreteInputs()
     setTimeout(() => {
-      console.log('1', '读取输出状态')
       readCoil()
-      // resolve('done');
     }, 2000)
-  }, 5000)
+    setTimeout(() => {
+      console.log('1', '读取模拟量')
+      readHoldingRegister() //TODO2:后面改成几十秒读一次
+    }, 4000)
+  }, 6000)
 })
 onUnmounted(() => {
   client.end()
@@ -360,6 +273,11 @@ onUnmounted(() => {
     clearInterval(timer)
   }
 })
+
+// AI_temp1_datas.value = [40, 39, 10, 40, 39, 80, 40]
+// AI_temp2_datas.value = [22, 31, 18, 12, 46, 20, 10]
+// AI_temp3_datas.value = [35, 27, 17, 30, 62, 32, 25]
+// AI_temp_times.value = ['10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40']
 </script>
 <style>
 .header {
@@ -398,6 +316,7 @@ onUnmounted(() => {
 .subbgcolor {
   background-color: rgb(126, 215, 241);
 }
+
 .dio_title {
   text-align: center;
   font-size: 24px;
@@ -405,6 +324,7 @@ onUnmounted(() => {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   /* font-family: cursive; */
 }
+
 .group-container {
   padding-top: 10px;
   padding-left: 45px;
@@ -413,6 +333,7 @@ onUnmounted(() => {
 .group-item {
   margin-top: 6px;
 }
+
 .group-item-DO {
   margin-top: 3px;
 }

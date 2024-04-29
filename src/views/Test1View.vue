@@ -49,9 +49,7 @@ function outPutOff() {
   client.publish('/CJ2400101/SUBDIS', bytesOff)
 }
 function readCoil() {
-
   let hexArray: string[] = ['0A', '01', '00', '08', '00', '03', 'FC', 'B2']
-
 
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
@@ -68,14 +66,16 @@ client.on('connect', () => {
       client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
     }
   })
+  client.subscribe('/CJ2400101/WILL', { qos: 1 })
 })
 
 client.on('message', (topic, message) => {
   const msgRecieved = message.toString()
   const encoder = new TextEncoder()
   const result = encoder.encode(msgRecieved)
-  console.log(result)
+  // console.log(result)
   messages.value.push(result)
+  messages.value.push(msgRecieved)
 })
 
 client.on('close', () => {
