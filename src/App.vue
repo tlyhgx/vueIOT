@@ -1,9 +1,3 @@
-<script setup lang="ts">
-
-// import HelloWorld from './components/HelloWorld.vue'
-import MainView from './components/MainView.vue'
-</script>
-
 <template>
   <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -19,21 +13,22 @@ import MainView from './components/MainView.vue'
     </div>
   </header> -->
 
-  <MainView />
-
-  
+  <!-- <MainView  v-show="isShow"/> -->
+  <RouterView />
+  <!-- <LoginView  /> -->
 </template>
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import { ref } from 'vue'
+let isShow = ref(false)
+</script>
 
 <style scoped>
 /* header {
   line-height: 1.5;
   max-height: 100vh;
 } */
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+/*  */
 
 /*nav {
   width: 100%;

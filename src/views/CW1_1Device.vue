@@ -1,125 +1,134 @@
 <template>
-  <el-row class="row-bg bgcolor shadow-border">
-    <el-col :span="8" style="padding: 44px 0 0 76px">2024-4-19 17:21:33</el-col>
-    <el-col :span="8" justify="center">
-      <div class="grid-content header">
-        餐厨垃圾处理设备<span class="subheading">诸暨次坞001--2吨</span>
-      </div>
-    </el-col>
-    <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
-      <DIOStateDisplay name="在线" :isWork=isOnline />
-    </el-col>
-    <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
-  </el-row>
+  <el-container>
+    <el-aside class="aside">
+      <MainView />
+    </el-aside>
+    <el-main  >
+      <el-row class=" bgcolor shadow-border">
+        <el-col :span="8" style="padding: 44px 0 0 76px">2024-4-19 17:21:33</el-col>
+        <el-col :span="8" justify="center">
+          <div class="grid-content header">
+            餐厨垃圾处理设备<span class="subheading">诸暨次坞001--2吨</span>
+          </div>
+        </el-col>
+        <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
+          <DIOStateDisplay name="在线" :isWork=isOnline />
+        </el-col>
+        <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
+      </el-row>
 
-  <el-row gutter="10">
-    <el-col :span="18">
-      <div class="grid-content ep-bg-purple content-heigh">
-        <el-row gutter="10">
-          <el-col :span="6">
-            <div class="subbgcolor di-state-display left-first-line shadow-border">
-              <p class="dio_title">输入信号状态</p>
-              <div class="group-container">
-                <!-- 第一个上料紧停是个常闭按钮 -->
-                <DIOStateDisplay class="group-item" name="上料紧停按钮（常闭）" :isWork="!DI_state_bitArray[0]" />
-                <DIOStateDisplay class="group-item" name="上限位" :isWork="DI_state_bitArray[6]" />
-                <DIOStateDisplay class="group-item" name="下限位" :isWork="DI_state_bitArray[7]" />
-                <DIOStateDisplay class="group-item" name="出料启动" :isWork="DI_state_bitArray[8]" />
-                <DIOStateDisplay class="group-item" name="搅拌A正转" :isWork="DI_state_bitArray[9]" />
-                <DIOStateDisplay class="group-item" name="搅拌A反转" :isWork="DI_state_bitArray[10]" />
-                <DIOStateDisplay class="group-item" name="搅拌B正转" :isWork="DI_state_bitArray[11]" />
-                <DIOStateDisplay class="group-item" name="破碎压榨正转" :isWork="DI_state_bitArray[12]" />
-                <DIOStateDisplay class="group-item" name="破碎压榨反转" :isWork="DI_state_bitArray[13]" />
-                <DIOStateDisplay class="group-item" name="液压泵" :isWork="DI_state_bitArray[14]" />
-                <DIOStateDisplay class="group-item" name="不锈钢风机" :isWork="DI_state_bitArray[15]" />
-                <DIOStateDisplay class="group-item" name="喷淋塔电机" :isWork="DI_state_bitArray[16]" />
-                <DIOStateDisplay class="group-item" name="自吸式水泵" :isWork="DI_state_bitArray[17]" />
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="12" class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
+      <el-row gutter="10">
+        <el-col :span="18">
+          <div class="grid-content ep-bg-purple content-heigh">
+            <el-row gutter="10">
+              <el-col :span="6">
+                <div class="subbgcolor di-state-display left-first-line shadow-border">
+                  <p class="dio_title">输入信号状态</p>
+                  <div class="group-container">
+                    <!-- 第一个上料紧停是个常闭按钮 -->
+                    <DIOStateDisplay class="group-item" name="上料紧停按钮（常闭）" :isWork="!DI_state_bitArray[0]" />
+                    <DIOStateDisplay class="group-item" name="上限位" :isWork="DI_state_bitArray[6]" />
+                    <DIOStateDisplay class="group-item" name="下限位" :isWork="DI_state_bitArray[7]" />
+                    <DIOStateDisplay class="group-item" name="出料启动" :isWork="DI_state_bitArray[8]" />
+                    <DIOStateDisplay class="group-item" name="搅拌A正转" :isWork="DI_state_bitArray[9]" />
+                    <DIOStateDisplay class="group-item" name="搅拌A反转" :isWork="DI_state_bitArray[10]" />
+                    <DIOStateDisplay class="group-item" name="搅拌B正转" :isWork="DI_state_bitArray[11]" />
+                    <DIOStateDisplay class="group-item" name="破碎压榨正转" :isWork="DI_state_bitArray[12]" />
+                    <DIOStateDisplay class="group-item" name="破碎压榨反转" :isWork="DI_state_bitArray[13]" />
+                    <DIOStateDisplay class="group-item" name="液压泵" :isWork="DI_state_bitArray[14]" />
+                    <DIOStateDisplay class="group-item" name="不锈钢风机" :isWork="DI_state_bitArray[15]" />
+                    <DIOStateDisplay class="group-item" name="喷淋塔电机" :isWork="DI_state_bitArray[16]" />
+                    <DIOStateDisplay class="group-item" name="自吸式水泵" :isWork="DI_state_bitArray[17]" />
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="12" class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
+                <el-row>
+                  <div style="width: 100%">
+                    <img alt="设备图片" src="@/assets/kitchen waste.png" style="width: 100%; height: auto" />
+                  </div>
+                </el-row>
+                <el-row justify="center">
+                  <div style="display: flex; padding-top: 50px">
+                    <DIOStateDisplay name="工作" :isWork="true" />
+                    <DIOStateDisplay style="margin-left: 30px" name="停止" :isWork="false" />
+                  </div>
+                </el-row>
+              </el-col>
+              <el-col :span="6">
+                <div class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
+                  <p class="dio_title">输出信号状态</p>
+                  <div class="group-container">
+                    <DIOStateDisplay class="group-item-DO" name="1#加热" :isWork="DO_state_bitArray[0]" />
+                    <DIOStateDisplay class="group-item-DO" name="2#加热" :isWork="DO_state_bitArray[1]" />
+                    <DIOStateDisplay class="group-item-DO" name="3#加热" :isWork="DO_state_bitArray[2]" />
+                    <DIOStateDisplay class="group-item-DO" name="4#加热" :isWork="DO_state_bitArray[3]" />
+                    <DIOStateDisplay class="group-item-DO" name="搅拌A正转" :isWork="DO_state_bitArray[8]" />
+                    <DIOStateDisplay class="group-item-DO" name="搅拌A反转" :isWork="DO_state_bitArray[9]" />
+                    <DIOStateDisplay class="group-item-DO" name="搅拌B正转" :isWork="DO_state_bitArray[10]" />
+                    <DIOStateDisplay class="group-item-DO" name="破碎压榨正转" :isWork="DO_state_bitArray[11]" />
+                    <DIOStateDisplay class="group-item-DO" name="破碎压榨反转" :isWork="DO_state_bitArray[12]" />
+                    <DIOStateDisplay class="group-item-DO" name="液压泵" :isWork="DO_state_bitArray[13]" />
+                    <DIOStateDisplay class="group-item-DO" name="不锈钢风机" :isWork="DO_state_bitArray[14]" />
+                    <DIOStateDisplay class="group-item-DO" name="喷淋塔电机" :isWork="DO_state_bitArray[15]" />
+                    <DIOStateDisplay class="group-item-DO" name="自吸式水泵" :isWork="DO_state_bitArray[16]" />
+                    <DIOStateDisplay class="group-item-DO" name="提升机上升" :isWork="DO_state_bitArray[17]" />
+                    <DIOStateDisplay class="group-item-DO" name="提升机下降" :isWork="DO_state_bitArray[18]" />
+                    <DIOStateDisplay class="group-item-DO" name="压榨冲洗" :isWork="DO_state_bitArray[19]" />
+                    <DIOStateDisplay class="group-item-DO" name="外接冲洗" :isWork="DO_state_bitArray[20]" />
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row gutter="10">
+              <el-col :span="18">
+                <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border">
+                  <!-- 温度实时曲线 -->
+                  <LineChartStyle01 style="width: 100%; height: 110%;padding-top:10px" :input_temp1="AI_temp1_data"
+                    :input_temp2="AI_temp2_data" :input_temp3="AI_temp3_data" :input_time="AI_temp_time" />
+                </div>
+              </el-col>
+              <!-- //HACK:是否需要日期选择 -->
+              <!-- //HACK22:此处要增加scroll ,会不会自动产生 -->
+              <!--实时报警-->
+              <el-col :span="6">
+                <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border"
+                  style="padding-top: 15px">
+                  <el-timeline style="max-width: 600px">
+                    <el-timeline-item v-for="(activity, index) in activities" :key="index"
+                      :timestamp="activity.timestamp">
+                      <div style="color: red">{{ activity.content }}</div>
+                    </el-timeline-item>
+                  </el-timeline>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="grid-content ep-bg-purple content-heigh">
             <el-row>
-              <div style="width: 100%">
-                <img alt="设备图片" src="@/assets/kitchen waste.png" style="width: 100%; height: auto" />
-              </div>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
+                  日清单
+                  <BarChartStyle01 />
+                </div>
+              </el-col>
             </el-row>
-            <el-row justify="center">
-              <div style="display: flex; padding-top: 50px">
-                <DIOStateDisplay name="工作" :isWork="true" />
-                <DIOStateDisplay style="margin-left: 30px" name="停止" :isWork="false" />
-              </div>
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
+                  日汇总清单
+                  <BarChartStyle01 />
+                </div>
+              </el-col>
             </el-row>
-          </el-col>
-          <el-col :span="6">
-            <div class="grid-content ep-bg-purple subbgcolor left-first-line shadow-border">
-              <p class="dio_title">输出信号状态</p>
-              <div class="group-container">
-                <DIOStateDisplay class="group-item-DO" name="1#加热" :isWork="DO_state_bitArray[0]" />
-                <DIOStateDisplay class="group-item-DO" name="2#加热" :isWork="DO_state_bitArray[1]" />
-                <DIOStateDisplay class="group-item-DO" name="3#加热" :isWork="DO_state_bitArray[2]" />
-                <DIOStateDisplay class="group-item-DO" name="4#加热" :isWork="DO_state_bitArray[3]" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌A正转" :isWork="DO_state_bitArray[8]" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌A反转" :isWork="DO_state_bitArray[9]" />
-                <DIOStateDisplay class="group-item-DO" name="搅拌B正转" :isWork="DO_state_bitArray[10]" />
-                <DIOStateDisplay class="group-item-DO" name="破碎压榨正转" :isWork="DO_state_bitArray[11]" />
-                <DIOStateDisplay class="group-item-DO" name="破碎压榨反转" :isWork="DO_state_bitArray[12]" />
-                <DIOStateDisplay class="group-item-DO" name="液压泵" :isWork="DO_state_bitArray[13]" />
-                <DIOStateDisplay class="group-item-DO" name="不锈钢风机" :isWork="DO_state_bitArray[14]" />
-                <DIOStateDisplay class="group-item-DO" name="喷淋塔电机" :isWork="DO_state_bitArray[15]" />
-                <DIOStateDisplay class="group-item-DO" name="自吸式水泵" :isWork="DO_state_bitArray[16]" />
-                <DIOStateDisplay class="group-item-DO" name="提升机上升" :isWork="DO_state_bitArray[17]" />
-                <DIOStateDisplay class="group-item-DO" name="提升机下降" :isWork="DO_state_bitArray[18]" />
-                <DIOStateDisplay class="group-item-DO" name="压榨冲洗" :isWork="DO_state_bitArray[19]" />
-                <DIOStateDisplay class="group-item-DO" name="外接冲洗" :isWork="DO_state_bitArray[20]" />
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-
-        <el-row gutter="10">
-          <el-col :span="18">
-            <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border">
-              <!-- 温度实时曲线 -->
-              <LineChartStyle01 style="width: 100%; height: 110%;padding-top:10px" :input_temp1="AI_temp1_data"
-                :input_temp2="AI_temp2_data" :input_temp3="AI_temp3_data" :input_time="AI_temp_time" />
-            </div>
-          </el-col>
-          <!-- //HACK:是否需要日期选择 -->
-          <!-- //HACK22:此处要增加scroll ,会不会自动产生 -->
-          <!--实时报警-->
-          <el-col :span="6">
-            <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border" style="padding-top: 15px">
-              <el-timeline style="max-width: 600px">
-                <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp">
-                  <div style="color: red">{{ activity.content }}</div>
-                </el-timeline-item>
-              </el-timeline>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-    <el-col :span="6">
-      <div class="grid-content ep-bg-purple content-heigh">
-        <el-row>
-          <el-col :span="24">
-            <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
-              日清单
-              <BarChartStyle01 />
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
-              日汇总清单
-              <BarChartStyle01 />
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-  </el-row>
+          </div>
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 <script lang="ts" setup>
 import { ref, onUnmounted, onMounted } from 'vue'
@@ -222,7 +231,7 @@ client.on('connect', () => {
       // client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
     }
   })
-  client.subscribe('/CJ2400101/WILL', { qos: 2, retain: false })    //TODO2:每次刚登录就有will信息，为什么
+  client.subscribe('/CJ2400101/WILL', { qos: 2, retain: false })
 })
 
 client.on('message', (topic, message) => {
@@ -236,7 +245,7 @@ client.on('message', (topic, message) => {
     // console.log(DI_state_bitArray.value)
   } else if (message[1] == 3) {
     // 获取当前日期和时间
-    const now = new Date() //TODO22:这里 now 和 time 初始化，最好可以放在前面
+    const now = new Date() //HACK22:这里 now 和 time 初始化，最好可以放在前面
     // 获取当前时间
     const time = now.toTimeString()
 
@@ -294,7 +303,7 @@ onUnmounted(() => {
 }
 
 .left-first-line {
-  height: 55vh;
+  height: 54vh;
 }
 
 .di-state-display {

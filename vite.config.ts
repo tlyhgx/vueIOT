@@ -22,8 +22,16 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0',
-    port: 1883
+    port: 1883,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
+
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

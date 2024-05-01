@@ -2,6 +2,8 @@ import CW1_1Device from '@/views/CW1_1Device.vue'
 import CW1_2Device from '@/views/CW1_2Device.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Test1View from '../views/Test1View.vue'
+import LoginView from '../views/LoginView.vue'
+import MainView from '@/components/MainView.vue'
 // import HomeView from '../views/HomeView.vue'
 
 // import AboutView from '@/views/AboutView.vue'
@@ -10,9 +12,19 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/cclj',
+      name: 'cclj',
+      component: MainView
+    },
+    {
       path: '/test1',
       name: 'test1',
       component: Test1View
+    },
+    {
+      path: '/',
+      name: 'login',
+      component: LoginView
     },
     {
       path: '/cw1_1',

@@ -90,28 +90,46 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main>
-    <h1>MQTTjs VITE Example</h1>
-    <p>
-      MQTTjs is a simple MQTT client for the browser. It uses WebSockets to connect to an MQTT
-      broker.
-    </p>
-    <p>
-      This example uses the public MQTT broker at
-      <a href="https://test.mosquitto.org/">test.mosquitto.org</a>.
-    </p>
+  <el-container>
+    <el-aside class="aside">
+      <MainView />
+    </el-aside>
+    <el-main>
 
-    <p>Status: {{ connected ? 'Connected' : 'Disconnected' }}</p>
-    <p>
-      <button @click="client.publish('/CJ2400101/SUBDIS', 'Hello mqtt')">Publish</button>
-      <button @click="outPut">Publish On0.9</button>
-      <button @click="outPutOff">Publish Off0.9</button>
-      <button @click="readCoil">read 0.9</button>
-      <button @click="client.end()">Disconnect</button>
-    </p>
-    <p>Messages:</p>
-    <ul>
-      <li v-for="message in messages" :key="message">{{ message }}</li>
-    </ul>
-  </main>
+
+      <h1>MQTTjs VITE Example</h1>
+      <p>
+        MQTTjs is a simple MQTT client for the browser. It uses WebSockets to connect to an MQTT
+        broker.
+      </p>
+      <p>
+        This example uses the public MQTT broker at
+        <a href="https://test.mosquitto.org/">test.mosquitto.org</a>.
+      </p>
+
+      <p>Status: {{ connected ? 'Connected' : 'Disconnected' }}</p>
+      <p>
+        <button @click="client.publish('/CJ2400101/SUBDIS', 'Hello mqtt')">Publish</button>
+        <button @click="outPut">Publish On0.9</button>
+        <button @click="outPutOff">Publish Off0.9</button>
+        <button @click="readCoil">read 0.9</button>
+        <button @click="client.end()">Disconnect</button>
+      </p>
+      <p>Messages:</p>
+      <ul>
+        <li v-for="message in messages" :key="message">{{ message }}</li>
+      </ul>
+
+    </el-main>
+  </el-container>
+
 </template>
+
+<style>
+.aside {
+  /* color: var(--el-text-color-primary); */
+  height: 100vh;
+  width: 240px;
+  /* background: var(--el-color-primary-light-8); */
+}
+</style>
