@@ -18,7 +18,7 @@ const options = {
     topic: '/will',
     payload: 'Offline',
     qos: 1,
-    retain: true
+    retain: false
   },
   protocolVersion: 4
 }

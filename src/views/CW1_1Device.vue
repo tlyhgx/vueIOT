@@ -7,7 +7,7 @@
       </div>
     </el-col>
     <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
-      <DIOStateDisplay name="在线" :isWork="true" />
+      <DIOStateDisplay name="在线" :isWork=isOnline />
     </el-col>
     <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
   </el-row>
@@ -147,7 +147,8 @@ const activities = [
     content: '1#温度太高！'
   }
 ]
-let timer: ReturnType<typeof setInterval> | null = null
+let timer_dio: ReturnType<typeof setInterval> | null = null
+let timer_temp: ReturnType<typeof setInterval> | null = null
 const DO_state_bitArray = ref([]) //输出状态组
 const DI_state_bitArray = ref([]) //输入状态组
 const AI_temp1_data: number = ref() //模拟量1
@@ -155,7 +156,7 @@ const AI_temp2_data: number = ref() //模拟量2
 const AI_temp3_data: number = ref() //模拟量3
 const AI_temp_time: string = ref() //时间
 const connected = ref(false)
-
+const isOnline = ref(true)
 // Connection options
 //https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
 //https://www.emqx.com/en/blog/mqtt-js-tutorial
@@ -172,7 +173,7 @@ const options = {
     topic: '/will',
     payload: 'Offline',
     qos: 1,
-    retain: true
+    retain: false
   },
   protocolVersion: 4
 }
@@ -210,6 +211,8 @@ function readHoldingRegister() {
   // console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
+
+
 client.on('connect', () => {
   console.log('connected')
   connected.value = true
@@ -219,11 +222,12 @@ client.on('connect', () => {
       // client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
     }
   })
+  client.subscribe('/CJ2400101/WILL', { qos: 2, retain: false })    //TODO2:每次刚登录就有will信息，为什么
 })
 
 client.on('message', (topic, message) => {
-  // console.log(message)
-
+  console.log(message)
+  isOnline.value = true
   if (message[1] == 1) {
     DO_state_bitArray.value = bytesToBitArray(message.slice(3, 6))
     // console.log(DO_state_bitArray.value)
@@ -235,49 +239,41 @@ client.on('message', (topic, message) => {
     const now = new Date() //TODO22:这里 now 和 time 初始化，最好可以放在前面
     // 获取当前时间
     const time = now.toTimeString()
-    let floatValue = bytes4_Float(message.slice(3, 7))
 
-    console.log(floatValue)
-    floatValue = bytes4_Float(message.slice(7, 11))
-    console.log(floatValue)
-    floatValue = bytes4_Float(message.slice(11, 15))
-    console.log(floatValue)
-    console.log(time.slice(0, 8))
     AI_temp1_data.value = bytes4_Float(message.slice(3, 7))
     AI_temp2_data.value = bytes4_Float(message.slice(7, 11))
     AI_temp3_data.value = bytes4_Float(message.slice(11, 15))
     AI_temp_time.value = time.slice(0, 8)
-    // AI_temp_times.value.push()
-    // AI_temp1_datas.value.push(bytes4_Float(message.slice(3, 7)))
-    // AI_temp2_datas.value.push(bytes4_Float(message.slice(7, 11)))
-    // AI_temp3_datas.value.push(bytes4_Float(message.slice(11, 15)))
+  } else if (message[1] == 102) {
+    isOnline.value = false
   }
 })
 onMounted(() => {
-  timer = setInterval(() => {
+  timer_dio = setInterval(() => {
     readDiscreteInputs()
     setTimeout(() => {
       readCoil()
     }, 2000)
-    setTimeout(() => {
-      console.log('1', '读取模拟量')
-      readHoldingRegister() //TODO2:后面改成几十秒读一次
-    }, 4000)
-  }, 6000)
+
+  }, 3000);
+  timer_temp = setInterval(() => {
+    readHoldingRegister()
+  }, 8000);
+
 })
 onUnmounted(() => {
   client.end()
   connected.value = false
   console.log('exit')
-  if (timer) {
-    clearInterval(timer)
+  if (timer_dio) {
+    clearInterval(timer_dio)
+  }
+  if (timer_temp) {
+    clearInterval(timer_temp)
   }
 })
 
-// AI_temp1_datas.value = [40, 39, 10, 40, 39, 80, 40]
-// AI_temp2_datas.value = [22, 31, 18, 12, 46, 20, 10]
-// AI_temp3_datas.value = [35, 27, 17, 30, 62, 32, 25]
-// AI_temp_times.value = ['10:10', '10:15', '10:20', '10:25', '10:30', '10:35', '10:40']
+
 </script>
 <style>
 .header {
