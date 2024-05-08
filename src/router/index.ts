@@ -1,7 +1,7 @@
 import CW1_1Device from '@/views/CW1_1Device.vue'
 import CW1_2Device from '@/views/CW1_2Device.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import Test1View from '../views/Test1View.vue'
+import TestMqttView from '../views/TestMqttView.vue'
 import LoginView from '../views/LoginView.vue'
 import MainView from '@/components/MainView.vue'
 // import HomeView from '../views/HomeView.vue'
@@ -17,9 +17,9 @@ const router = createRouter({
       component: MainView
     },
     {
-      path: '/test1',
-      name: 'test1',
-      component: Test1View
+      path: '/testmqtt',
+      name: 'testmqtt',
+      component: TestMqttView
     },
     {
       path: '/',

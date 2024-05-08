@@ -42,7 +42,7 @@
               <el-menu-item index="3-1">1#1吨机</el-menu-item>
               <el-menu-item index="3-2">2#1吨机</el-menu-item>
               <el-menu-item index="3-3">
-                <RouterLink to="/test1">test</RouterLink>
+                <RouterLink to="/testmqtt">test_mqtt</RouterLink>
               </el-menu-item>
               <el-menu-item index="3-4">
                 <RouterLink to="/login">Login</RouterLink>

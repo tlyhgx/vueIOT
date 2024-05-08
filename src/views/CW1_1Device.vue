@@ -3,7 +3,7 @@
     <el-aside class="aside">
       <MainView />
     </el-aside>
-    <el-main  >
+    <el-main>
       <el-row class=" bgcolor shadow-border">
         <el-col :span="8" style="padding: 44px 0 0 76px">2024-4-19 17:21:33</el-col>
         <el-col :span="8" justify="center">
@@ -237,21 +237,24 @@ client.on('connect', () => {
 client.on('message', (topic, message) => {
   console.log(message)
   isOnline.value = true
+  //message[1]是功能代码  1：读coil状态  2：读discrete inputs 状态
+  //     3:读保持寄存器      102：offline的第一个f   119: www.usr 心跳包 的第二个 w
+  //message[2] 的12是 温度组返回长度  如 10, 3, 12, 64, 182, 102, 102, 0, 0, 0, 0, 0, 0, 0, 0, 241, 1,
   if (message[1] == 1) {
-    DO_state_bitArray.value = bytesToBitArray(message.slice(3, 6))
+    DO_state_bitArray.value = bytesToBitArray(message.subarray(3, 6))
     // console.log(DO_state_bitArray.value)
   } else if (message[1] == 2) {
-    DI_state_bitArray.value = bytesToBitArray(message.slice(3, 6))
+    DI_state_bitArray.value = bytesToBitArray(message.subarray(3, 6))
     // console.log(DI_state_bitArray.value)
-  } else if (message[1] == 3) {
+  } else if (message[1] == 3 && message[2] == 12) {
     // 获取当前日期和时间
     const now = new Date() //HACK22:这里 now 和 time 初始化，最好可以放在前面
     // 获取当前时间
     const time = now.toTimeString()
 
-    AI_temp1_data.value = bytes4_Float(message.slice(3, 7))
-    AI_temp2_data.value = bytes4_Float(message.slice(7, 11))
-    AI_temp3_data.value = bytes4_Float(message.slice(11, 15))
+    AI_temp1_data.value = bytes4_Float(message.subarray(3, 7))
+    AI_temp2_data.value = bytes4_Float(message.subarray(7, 11))
+    AI_temp3_data.value = bytes4_Float(message.subarray(11, 15))
     AI_temp_time.value = time.slice(0, 8)
   } else if (message[1] == 102) {
     isOnline.value = false
