@@ -56,7 +56,7 @@ function readCoil() {
   console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
-//TODO222:connected 代表 是否 连接到 mqtt服务器,还需要 状态 ：设备是否在线，设备是否运行
+
 client.on('connect', () => {
   console.log('connected')
   connected.value = true

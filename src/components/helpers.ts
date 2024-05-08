@@ -1,3 +1,5 @@
+import CryptoJS from 'crypto-js';
+
 // helpers.js
 export function sum(a: number, b: number) {
   return a + b
@@ -55,4 +57,9 @@ export function bytes4_Float(bytes: numer[], decimal_number: number = 2) {
   const outFloat = parseFloat(float.toFixed(decimal_number))
   // console.log(outFloat) // 输出浮点数
   return outFloat
+}
+
+export function emcryption(original_value:string){
+  const hash = CryptoJS.SHA256(original_value).toString();
+  return hash
 }

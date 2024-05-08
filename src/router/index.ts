@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TestMqttView from '../views/TestMqttView.vue'
 import LoginView from '../views/LoginView.vue'
 import MainView from '@/components/MainView.vue'
+import Test1View from '@/views/Test1View.vue'
 // import HomeView from '../views/HomeView.vue'
 
 // import AboutView from '@/views/AboutView.vue'
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/testmqtt',
       name: 'testmqtt',
       component: TestMqttView
+    },
+    {
+      path: '/test1view',
+      name: 'test1view',
+      component: Test1View
     },
     {
       path: '/',

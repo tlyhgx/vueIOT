@@ -30,6 +30,7 @@
     </el-form>
 </template>
 <script setup lang="ts">
+import { emcryption } from '@/components/helpers';
 import axios from 'axios';
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -39,7 +40,8 @@ const form = reactive({
     psw: '',
 })
 async function onSubmit() {
-    const response = await axios.post('http://localhost:8000/token', { name: form.name, psw: form.psw })
+    const encrytion_pass=emcryption(form.psw)
+    const response = await axios.post('http://localhost:8000/token', { name: form.name, psw: encrytion_pass })
     console.log(response.data)
     console.log(form.name, 'cssss', form.psw)
     console.log("登录")

@@ -12,7 +12,9 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
-          <DIOStateDisplay name="在线" :isWork=isOnline />
+          
+          <DIOStateDisplay  v-if="isOnline" name="在线" :isWork=isOnline />
+          <DIOStateDisplay  v-else name="离线" :isWork=isOnline />
         </el-col>
         <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
       </el-row>

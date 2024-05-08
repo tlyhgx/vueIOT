@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, defineProps } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import * as echarts from 'echarts'
 
 const chart = ref(null)

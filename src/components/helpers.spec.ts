@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { sum, hexToBytes, byteToBitArray, bytesToBitArray, bytes4_Float } from './helpers.ts'
+import { sum, hexToBytes, byteToBitArray, bytesToBitArray, bytes4_Float,emcryption } from './helpers.ts'
 
 test('adds 1 + 2 to equal 3', () => {
   expect(sum(1, 2)).toBe(3)
@@ -61,4 +61,10 @@ test('4个字节转换为浮点数', () => {
   res=bytes4_Float([63,158,141,221])
   console.log(res)
 
+})
+
+test('加密',()=>{
+  const pass:string='11111111a'
+  const hash = emcryption(pass)
+  expect(hash).toEqual('7b77e79744fd7213bf92af2fb62e04bc7236c833d94fa61ae023df74150e8f9d')
 })
