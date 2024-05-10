@@ -125,11 +125,7 @@ async function onSubmit() {
     const encrytion_pass=emcryption(ruleForm.pass)
     const response = await axios.post('http://localhost:8000/cjkj_user_register', { name: ruleForm.name, psw: encrytion_pass,myRouter: ruleForm.myRouter})
     console.log(response.data)
-    console.log(ruleForm.name)
-    console.log(ruleForm.pass)
-    console.log(ruleForm.myRouter)
-    console.log(encrytion_pass)
-    console.log("登录")
+    // console.log("登录")
     router.push('/')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
     //TODO333:添加登录记录
 
@@ -145,8 +141,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
     })
     onSubmit()
-    
-    //TODO:保存
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {

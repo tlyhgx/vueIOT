@@ -12,10 +12,13 @@
         <el-form-item label="密码:">
             <el-input v-model="form.psw" type="password" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item>
 
+            <el-alert v-show="showMsg" title="用户名或密码错误！" type="error" />
+        </el-form-item>
 
         <el-form-item>
-            <el-row justify="space-around" style="width:100%;padding-top:15px">
+            <el-row justify="space-around" style="width:100%;padding-top:5px">
                 <el-col :span="4">
                     <el-button type="primary" @click="onSubmit">登录</el-button>
                 </el-col>
@@ -32,20 +35,28 @@
 <script setup lang="ts">
 import { emcryption } from '@/components/helpers';
 import axios from 'axios';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+let showMsg = ref(false)
 const router = useRouter()
 const form = reactive({
     name: '',
     psw: '',
 })
 async function onSubmit() {
-    const encrytion_pass=emcryption(form.psw)
+    const encrytion_pass = emcryption(form.psw)
     const response = await axios.post('http://localhost:8000/token', { name: form.name, psw: encrytion_pass })
     console.log(response.data)
-    console.log(form.name, 'cssss', form.psw)
-    console.log("登录")
-    router.push('/cclj')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
+    if (response.data == null) {
+        console.log("登录失败！")   //TODO:添加登录失败提醒
+        showMsg.value = true
+    }
+    else {
+        router.push('/cclj')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
+    }
+
+
     //TODO333:添加登录记录
 
 }

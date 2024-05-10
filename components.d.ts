@@ -10,6 +10,7 @@ declare module 'vue' {
     BarChartStyle01: typeof import('./src/components/BarChartStyle01.vue')['default']
     DayList: typeof import('./src/components/DayList.vue')['default']
     DIOStateDisplay: typeof import('./src/components/DIOStateDisplay.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
