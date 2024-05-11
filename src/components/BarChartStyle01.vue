@@ -1,51 +1,51 @@
 <template>
-    <Bar
-      id="my-chart-id"
-      :options="chartOptions"
-      :data="chartData"
-    />
-  </template>
-  
-  <script>
-  import { Bar } from 'vue-chartjs'
-  import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-  
-  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-  
-  export default {
-    name: 'BarChart',
-    components: { Bar },
-    data() {
-      return {
-        chartData: {
-          labels: [ '10:33', '10:45', '11:12', '12:45', '13:12' , '13:45', '14:12' , '14:45', '15:12' , '17:45', '18:12'  ],
-          datasets: [ { data: [32, 20, 12, 23, 14, 26, 14, 30, 13, 27, 11] } ]
-        },
-        chartOptions: {
-          responsive: true
-        }
-      }
-    }
-  }
-  </script>
+  <div ref="chartRef" style="width: 100%; height: 100%"></div>
 
-<!-- <template>
-  <Bar :data="chartData" :options="chartOptions" />
+
 </template>
+//TODO22:添加刷新
+<script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
+import * as echarts from 'echarts';
 
-<script>
+const chartRef = ref(null);
+// const title=ref<string>('')
+const props = defineProps({
+  _date: Array,
+  _value: Array,
+  _title: String,
+  _legend: String
+})
 
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+function setChart() {
+  const chart = echarts.init(chartRef.value);
 
-export default {
-  name: 'BarChart',
-  components: { Bar },
-  computed: {
-      chartData() { return  [ '10:33', '10:45', '11:12', '12:45', '13:12' , '13:45', '14:12' , '14:45', '15:12' , '17:45', '18:12'  ] },
-      chartOptions() { return [32, 20, 12, 23, 14, 26, 14, 30, 13, 27, 11] }
-    }
+  const option = {
+    title: {
+      text: props._title
+    },
+    tooltip: {},
+    legend: {
+      data: ['重量(kg)']
+    },
+    xAxis: {
+      data: props._date
+
+    },
+    yAxis: {},
+    series: [{
+      name: props._legend,
+      type: 'bar',
+      data: props._value
+
+    }]
+  };
+
+  chart.setOption(option);
 }
-</script> -->
+onMounted(() => {
+  setChart()
+});
+watch(() => props._date, setChart)
+</script>

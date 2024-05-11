@@ -12,9 +12,9 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 40px 0 0 86px; font-size: 1.2em">
-          
-          <DIOStateDisplay  v-if="isOnline" name="在线" :isWork=isOnline />
-          <DIOStateDisplay  v-else name="离线" :isWork=isOnline />
+
+          <DIOStateDisplay v-if="isOnline" name="在线" :isWork=isOnline />
+          <DIOStateDisplay v-else name="离线" :isWork=isOnline />
         </el-col>
         <el-col :span="4" style="padding: 40px 0 0 26px; font-size: 1.2em">设备介绍</el-col>
       </el-row>
@@ -113,16 +113,18 @@
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
-                  日清单
-                  <BarChartStyle01 />
+
+                  <BarChartStyle01 :_date=Dairy_list_date.values :_value=Dairy_list_value.values _title="日清单"
+                    _legend="重量(kg)" />
                 </div>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
-                  日汇总清单
-                  <BarChartStyle01 />
+
+                  <BarChartStyle01 :_date=Dairy_summary_date.values :_value=Dairy_summary_value.values _title="日汇总"
+                    _legend="重量(kg)" />
                 </div>
               </el-col>
             </el-row>
@@ -139,7 +141,7 @@ import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
 import { bytesToBitArray, bytes4_Float } from '@/components/helpers'
-
+import axios from 'axios';
 const activities = [
   {
     timestamp: '09:10',
@@ -166,6 +168,11 @@ const AI_temp1_data: number = ref() //模拟量1
 const AI_temp2_data: number = ref() //模拟量2
 const AI_temp3_data: number = ref() //模拟量3
 const AI_temp_time: string = ref() //时间
+let Dairy_summary_date = ref([])
+let Dairy_summary_value = ref([])
+let Dairy_list_date = ref([])
+let Dairy_list_value = ref([])
+
 const connected = ref(false)
 const isOnline = ref(true)
 // Connection options
@@ -223,6 +230,35 @@ function readHoldingRegister() {
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
 
+async function readDailySummaryByMonth() {
+  let currentDate = new Date();
+  const response = await axios.get('http://localhost:8000/cclj/daily_summary_by_month/',
+    {
+      params: {
+        current_datetime: currentDate,
+        device_code: 'cj2400101',
+        content_code: 'weight'
+      }
+    }
+  )
+  Dairy_summary_date.value.values = response.data._date
+  Dairy_summary_value.value.values = response.data._value
+}
+async function readDailyList() {
+  let currentDate = new Date();
+  const response = await axios.get('http://localhost:8000/cclj/daily_list/',
+    {
+      params: {
+        current_datetime: currentDate,
+        device_code: 'cj2400101',
+        content_code: 'weight'
+      }
+    }
+  )
+  Dairy_list_date.value.values = response.data._date
+  Dairy_list_value.value.values = response.data._value
+  // console.log(Dairy_list_date.value)
+}
 
 client.on('connect', () => {
   console.log('connected')
@@ -263,7 +299,10 @@ client.on('message', (topic, message) => {
   }
 })
 onMounted(() => {
-  
+
+
+  readDailySummaryByMonth()
+  readDailyList()
   timer_dio = setInterval(() => {
     readDiscreteInputs()
     setTimeout(() => {

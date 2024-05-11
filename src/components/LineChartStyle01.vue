@@ -20,8 +20,8 @@ let temp1s: number[] = []
 let temp2s: number[] = []
 let temp3s: number[] = []
 function dataChanged() {
-  console.log('cssssssss')
-  console.log(props.input_time)
+  // console.log('cssssssss')
+  // console.log(props.input_time)
   temp_time.push(props.input_time)
   temp1s.push(props.input_temp1)
   temp2s.push(props.input_temp2)
