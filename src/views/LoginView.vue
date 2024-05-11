@@ -49,24 +49,25 @@ async function onSubmit() {
     const response = await axios.post('http://localhost:8000/token', { name: form.name, psw: encrytion_pass })
     console.log(response.data)
     if (response.data == null) {
-        console.log("登录失败！")   //TODO:添加登录失败提醒
-        showMsg.value = true
+        console.log("登录失败！")
+        showMsg.value = true //添加登录失败提醒
     }
     else {
-        //TODO11:添加token
-    const token=response.data.access_token
-    localStorage.setItem('token',token)
-    
-        router.push('/cclj')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
+        //添加token
+        const token = response.data.access_token
+        localStorage.setItem('token', token)
+        const _url = '/' + response.data.url   //在这里转换到其它设备，根据用户名-->所在设备组
+        console.log(_url)
+        router.push(_url)
+
     }
-
-
-    //TODO333:添加登录记录
 
 }
 function onCancel() {
     form.name = '';
     form.psw = ''
+    localStorage.removeItem('token');
+    // console.log('sssssfsf')
 }
 </script>
 

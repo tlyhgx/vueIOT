@@ -1,11 +1,11 @@
-import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js'
 
 // helpers.js
 export function sum(a: number, b: number) {
   return a + b
 }
 
-//TODO:把16进制--》bytes
+//把16进制--》bytes
 export function hexToBytes(hex: string) {
   const bytes = []
   for (let i = 0; i < hex.length - 1; i += 2) {
@@ -59,7 +59,7 @@ export function bytes4_Float(bytes: numer[], decimal_number: number = 2) {
   return outFloat
 }
 
-export function emcryption(original_value:string){
-  const hash = CryptoJS.SHA256(original_value).toString();
+export function emcryption(original_value: string) {
+  const hash = CryptoJS.SHA256(original_value).toString()
   return hash
 }
