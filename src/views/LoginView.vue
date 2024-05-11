@@ -53,6 +53,10 @@ async function onSubmit() {
         showMsg.value = true
     }
     else {
+        //TODO11:添加token
+    const token=response.data.access_token
+    localStorage.setItem('token',token)
+    
         router.push('/cclj')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
     }
 

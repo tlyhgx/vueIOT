@@ -33,7 +33,8 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { emcryption } from '@/components/helpers'
-import axios from 'axios';
+import axios from '@/utils/axios';
+// import axios from 'axios';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
@@ -122,9 +123,19 @@ const rules = reactive<FormRules<typeof ruleForm>>({
 
 
 async function onSubmit() {
-    const encrytion_pass=emcryption(ruleForm.pass)
-    const response = await axios.post('http://localhost:8000/cjkj_user_register', { name: ruleForm.name, psw: encrytion_pass,myRouter: ruleForm.myRouter})
+    const encrytion_pass = emcryption(ruleForm.pass)
+    const response = await axios.post('http://localhost:8000/cjkj_user_register',
+        {
+            // headers: {
+            //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+            // },
+            name: ruleForm.name, psw: encrytion_pass, myRouter: ruleForm.myRouter,
+
+
+        }
+    )
     console.log(response.data)
+
     // console.log("登录")
     router.push('/')    //TODO22:在这里转换到其它设备，根据用户名-->所在设备组
     //TODO333:添加登录记录

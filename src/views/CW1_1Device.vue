@@ -263,6 +263,7 @@ client.on('message', (topic, message) => {
   }
 })
 onMounted(() => {
+  
   timer_dio = setInterval(() => {
     readDiscreteInputs()
     setTimeout(() => {
