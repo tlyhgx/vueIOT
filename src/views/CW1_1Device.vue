@@ -5,7 +5,9 @@
     </el-aside>
     <el-main>
       <el-row class=" bgcolor shadow-border">
-        <el-col :span="8" style="padding: 44px 0 0 76px">2024-4-19 17:21:33</el-col>
+        <el-col :span="8" style="padding: 40px 0 0 76px">
+          <div>{{ currentTime }}</div>
+        </el-col>
         <el-col :span="8" justify="center">
           <div class="grid-content header">
             餐厨垃圾处理设备<span class="subheading">诸暨次坞001--2吨</span>
@@ -172,7 +174,9 @@ let Dairy_summary_date = ref([])
 let Dairy_summary_value = ref([])
 let Dairy_list_date = ref([])
 let Dairy_list_value = ref([])
+const currentTime = ref(new Date().toLocaleString());
 
+let intervalId: number;
 const connected = ref(false)
 const isOnline = ref(true)
 // Connection options
@@ -299,7 +303,9 @@ client.on('message', (topic, message) => {
   }
 })
 onMounted(() => {
-
+  intervalId = window.setInterval(() => {
+    currentTime.value = new Date().toLocaleString();
+  }, 1000);
 
   readDailySummaryByMonth()
   readDailyList()
@@ -325,6 +331,7 @@ onUnmounted(() => {
   if (timer_temp) {
     clearInterval(timer_temp)
   }
+  clearInterval(intervalId);
 })
 
 
