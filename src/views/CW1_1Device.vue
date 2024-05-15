@@ -99,12 +99,17 @@
               <el-col :span="6">
                 <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border"
                   style="padding-top: 15px">
-                  <el-timeline style="max-width: 600px">
-                    <el-timeline-item v-for="(activity, index) in activities" :key="index"
-                      :timestamp="activity.timestamp">
-                      <div style="color: red">{{ activity.content }}</div>
-                    </el-timeline-item>
-                  </el-timeline>
+                  <el-scrollbar height="90%">
+                    <el-timeline style="max-width: 600px ;height:100px">
+                      <el-timeline-item v-for="(activity, index) in activities" :key="index"
+                        :timestamp="activity.timestamp">
+                        <div v-if=activity.state style=" color: red ">{{ activity.content }}</div>
+                        <div v-else style=" color: green ">{{ activity.content }}</div>
+                      </el-timeline-item>
+                    </el-timeline>
+
+                  </el-scrollbar>
+
                 </div>
               </el-col>
             </el-row>
@@ -144,26 +149,10 @@ import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
 import { bytesToBitArray, bytes4_Float } from '@/components/helpers'
 import axios from 'axios';
-const activities = [
-  {
-    timestamp: '09:10',
-    content: '1#温度过高！'
-  },
-  {
-    timestamp: '14:18',
-    content: '搅拌机故障！'
-  },
-  {
-    timestamp: '16:46',
-    content: '破碎机故障！'
-  },
-  {
-    timestamp: '21:34',
-    content: '1#温度太高！'
-  }
-]
+const activities = ref([])
 let timer_dio: ReturnType<typeof setInterval> | null = null
 let timer_temp: ReturnType<typeof setInterval> | null = null
+let timer_alarm: ReturnType<typeof setInterval> | null = null
 const DO_state_bitArray = ref([]) //输出状态组
 const DI_state_bitArray = ref([]) //输入状态组
 const AI_temp1_data: number = ref() //模拟量1
@@ -175,7 +164,9 @@ let Dairy_summary_value = ref([])
 let Dairy_list_date = ref([])
 let Dairy_list_value = ref([])
 const currentTime = ref(new Date().toLocaleString());
-
+let newAlarmInfo: string = ref()
+let lastAlarmInfo: string = ref()
+const alarmInfoColor = ref()
 let intervalId: number;
 const connected = ref(false)
 const isOnline = ref(true)
@@ -233,7 +224,36 @@ function readHoldingRegister() {
   // console.log(bytes)
   client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
 }
+async function readLastAlarm() {
+  const response = await axios.get('http://localhost:8000/cclj/get_last_alarm/',
+    {
+      params: {
+        device_code: 'cj2400101',
+      }
+    }
+  )
+  alarmInfoColor.value = response.data[2]
+  if (response.data[2] == 1) {
 
+    newAlarmInfo.value = response.data[1] + '  产生！'
+  } else {
+
+    newAlarmInfo.value = response.data[1] + '  消失！'
+  }
+
+  let dict: { [key: string]: string } = {
+    "timestamp": response.data[0],
+    "content": newAlarmInfo.value,
+    "state": response.data[2]
+  };
+  if (lastAlarmInfo.value != newAlarmInfo.value) {
+    activities.value.unshift(dict)
+  }
+
+  lastAlarmInfo.value = newAlarmInfo.value
+
+
+}
 async function readDailySummaryByMonth() {
   let currentDate = new Date();
   const response = await axios.get('http://localhost:8000/cclj/daily_summary_by_month/',
@@ -319,6 +339,10 @@ onMounted(() => {
   timer_temp = setInterval(() => {
     readHoldingRegister()
   }, 8000);
+  timer_alarm = setInterval(() => {
+    readLastAlarm()
+  }, 5000);  //TODO:时间临时测试用，后期要1min左右
+
 
 })
 onUnmounted(() => {
@@ -331,7 +355,13 @@ onUnmounted(() => {
   if (timer_temp) {
     clearInterval(timer_temp)
   }
-  clearInterval(intervalId);
+  if (timer_alarm) {
+    clearInterval(timer_alarm)
+  }
+  if (intervalId) {
+    clearInterval(intervalId)
+  }
+
 })
 
 
