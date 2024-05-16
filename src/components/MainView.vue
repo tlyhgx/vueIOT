@@ -44,7 +44,7 @@
             <RouterLink to="/testmqtt">test_mqtt</RouterLink>
           </el-menu-item>
           <el-menu-item index="3-4">
-            <RouterLink to="/login">Login</RouterLink>
+            <RouterLink to="cclj_do">输出</RouterLink>
           </el-menu-item>
           <el-menu-item index="3-5">
             <RouterLink to="/test1view">Register</RouterLink>

@@ -63,3 +63,32 @@ export function emcryption(original_value: string) {
   const hash = CryptoJS.SHA256(original_value).toString()
   return hash
 }
+
+
+/**
+ *  MODBUS-RTU CRC校验
+ * @param data Buffer对象十六进制Hex
+ * @returns {any[]}  十六进制高低位
+ * @constructor
+ */
+export function MODBUS_CRC(data) {
+  let crcValue = 0xFFFF;
+  for(let i=0;i<data.length;i++){
+      crcValue^=data[i]&0xFFFF
+      for(let j=0;j<8;j++){
+          if(crcValue&0x0001){
+              crcValue>>=1
+              crcValue^=0xA001
+          }else{
+              crcValue>>=1
+          }
+      }
+  }
+
+  crcValue=crcValue.toString(16)
+  // console.log(crcValue)
+  let crcArr=new Array(2)
+  crcArr[0]=crcValue.substring(2,4)
+  crcArr[1]=crcValue.substring(0,2)
+  return crcArr[0]+crcArr[1]
+}

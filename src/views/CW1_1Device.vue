@@ -329,6 +329,7 @@ onMounted(() => {
 
   readDailySummaryByMonth()
   readDailyList()
+  readLastAlarm()
   timer_dio = setInterval(() => {
     readDiscreteInputs()
     setTimeout(() => {
@@ -341,7 +342,7 @@ onMounted(() => {
   }, 8000);
   timer_alarm = setInterval(() => {
     readLastAlarm()
-  }, 5000);  //TODO:时间临时测试用，后期要1min左右
+  }, 60000);
 
 
 })

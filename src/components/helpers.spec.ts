@@ -1,5 +1,13 @@
 import { expect, test } from 'vitest'
-import { sum, hexToBytes, byteToBitArray, bytesToBitArray, bytes4_Float,emcryption } from './helpers.ts'
+import {
+  sum,
+  hexToBytes,
+  byteToBitArray,
+  bytesToBitArray,
+  bytes4_Float,
+  emcryption,
+  MODBUS_CRC
+} from './helpers.ts'
 
 test('adds 1 + 2 to equal 3', () => {
   expect(sum(1, 2)).toBe(3)
@@ -53,18 +61,36 @@ test('4个字节转换为浮点数', () => {
   let res: number = bytes4_Float([0x3f, 0x9e, 0xb8, 0x52])
   expect(res).toEqual(1.24)
 
-  
   // 63, 158, 141, 221
-  res=bytes4_Float([0x239,0x191,0x189,0x82])
+  res = bytes4_Float([0x239, 0x191, 0x189, 0x82])
   // console.log(res)
-  
-  res=bytes4_Float([63,158,141,221])
-  console.log(res)
 
+  res = bytes4_Float([63, 158, 141, 221])
+  // console.log(res)
 })
 
-test('加密',()=>{
-  const pass:string='11111111a'
+test('加密', () => {
+  const pass: string = '11111111a'
   const hash = emcryption(pass)
   expect(hash).toEqual('7b77e79744fd7213bf92af2fb62e04bc7236c833d94fa61ae023df74150e8f9d')
 })
+
+
+
+test('crc', () => {
+  const dataHexString = '0A0300010002' //94B0
+  console.log(MODBUS_CRC(new Buffer("0A0300010002","hex")))   //输出 94B0
+
+
+  const dataHexString1 = '020300320012' //94B0
+  const res=MODBUS_CRC(new Buffer("020300320012","hex"))
+  console.log(res)   //输出 643B
+ 
+ 
+})
+
+
+
+
+  
+
