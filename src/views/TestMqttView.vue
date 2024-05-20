@@ -36,7 +36,7 @@ function outPut() {
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
 
   // console.log(bytes)
-  client.publish('/CJ2400101/SUBDIS', bytes)
+  client.publish('/CJ2400102/SUBDIS', bytes)
 }
 function outPutOff() {
   // let askOff: string = '0A05000900001CB3'
@@ -46,7 +46,7 @@ function outPutOff() {
   // 转换为字节数组
 
   let bytesOff: Uint8Array = new Uint8Array(hexArrayOff.map((h) => parseInt(h, 16)))
-  client.publish('/CJ2400101/SUBDIS', bytesOff)
+  client.publish('/CJ2400102/SUBDIS', bytesOff)
 }
 function readCoil() {
   let hexArray: string[] = ['0A', '01', '00', '08', '00', '03', 'FC', 'B2']
@@ -54,19 +54,19 @@ function readCoil() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   console.log(bytes)
-  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
 }
 
 client.on('connect', () => {
   console.log('connected')
   connected.value = true
-  client.subscribe('/CJ2400101/PUBDIS', { qos: 0 }, (err) => {
+  client.subscribe('/CJ2400102/PUBDIS', { qos: 0 }, (err) => {
     if (!err) {
       console.log('subscribed')
-      client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
+      client.publish('/CJ2400102/PUBDIS', 'Hello mqtt')
     }
   })
-  client.subscribe('/CJ2400101/WILL', { qos: 1 })
+  client.subscribe('/CJ2400102/WILL', { qos: 1 })
 })
 
 client.on('message', (topic, message) => {
@@ -109,7 +109,7 @@ onUnmounted(() => {
 
       <p>Status: {{ connected ? 'Connected' : 'Disconnected' }}</p>
       <p>
-        <button @click="client.publish('/CJ2400101/SUBDIS', 'Hello mqtt')">Publish</button>
+        <button @click="client.publish('/CJ2400102/SUBDIS', 'Hello mqtt')">Publish</button>
         <button @click="outPut">Publish On0.9</button>
         <button @click="outPutOff">Publish Off0.9</button>
         <button @click="readCoil">read 0.9</button>

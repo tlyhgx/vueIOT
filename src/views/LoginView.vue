@@ -46,6 +46,7 @@ const form = reactive({
 })
 async function onSubmit() {
     const encrytion_pass = emcryption(form.psw)
+    console.log(encrytion_pass)
     const response = await axios.post('http://localhost:8000/token', { name: form.name, psw: encrytion_pass })
     console.log(response.data)
     if (response.data == null) {
@@ -56,7 +57,7 @@ async function onSubmit() {
         //添加token
         const token = response.data.access_token
         localStorage.setItem('token', token)
-        const _url = '/' + response.data.url   //在这里转换到其它设备，根据用户名-->所在设备组
+        const _url = '/' + response.data.url   //  HACK:在这里转换到其它设备，根据用户名-->所在设备组
         console.log(_url)
         router.push(_url)
 

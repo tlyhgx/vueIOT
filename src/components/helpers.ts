@@ -39,7 +39,7 @@ export function bytesToBitArray(bytes: number[]) {
 }
 
 //bytes :4个字节如[0x3F,0x9E,0xB8,0x52],decimal_number:小数位数-->得到一个float
-export function bytes4_Float(bytes: numer[], decimal_number: number = 2) {
+export function bytes4_Float(bytes: number[], decimal_number: number = 2) {
   const register1 = bytes[0]
   const register2 = bytes[1]
   const register3 = bytes[2]
@@ -64,7 +64,6 @@ export function emcryption(original_value: string) {
   return hash
 }
 
-
 /**
  *  MODBUS-RTU CRC校验
  * @param data Buffer对象十六进制Hex
@@ -72,23 +71,23 @@ export function emcryption(original_value: string) {
  * @constructor
  */
 export function MODBUS_CRC(data) {
-  let crcValue = 0xFFFF;
-  for(let i=0;i<data.length;i++){
-      crcValue^=data[i]&0xFFFF
-      for(let j=0;j<8;j++){
-          if(crcValue&0x0001){
-              crcValue>>=1
-              crcValue^=0xA001
-          }else{
-              crcValue>>=1
-          }
+  let crcValue = 0xffff
+  for (let i = 0; i < data.length; i++) {
+    crcValue ^= data[i] & 0xffff
+    for (let j = 0; j < 8; j++) {
+      if (crcValue & 0x0001) {
+        crcValue >>= 1
+        crcValue ^= 0xa001
+      } else {
+        crcValue >>= 1
       }
+    }
   }
 
-  crcValue=crcValue.toString(16)
+  crcValue = crcValue.toString(16)
   // console.log(crcValue)
-  let crcArr=new Array(2)
-  crcArr[0]=crcValue.substring(2,4)
-  crcArr[1]=crcValue.substring(0,2)
-  return crcArr[0]+crcArr[1]
+  const crcArr = new Array(2)
+  crcArr[0] = crcValue.substring(2, 4)
+  crcArr[1] = crcValue.substring(0, 2)
+  return crcArr[0] + crcArr[1]
 }

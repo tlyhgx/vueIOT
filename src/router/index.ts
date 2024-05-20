@@ -4,9 +4,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TestMqttView from '../views/TestMqttView.vue'
 import LoginView from '../views/LoginView.vue'
 import MainView from '@/components/MainView.vue'
+import MainViewCJ2400101 from '@/components/MainViewCJ2400101.vue'
 import Test1View from '@/views/Test1View.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import DOOprView from '@/views/DOOprView.vue'
+import DeviceCJ2400101 from '@/views/DeviceCJ2400101.vue'
 // import HomeView from '../views/HomeView.vue'
 
 // import AboutView from '@/views/AboutView.vue'
@@ -18,6 +20,11 @@ const router = createRouter({
       path: '/cclj',
       name: 'cclj',
       component: MainView
+    },
+    {
+      path: '/cj2400101',
+      name: 'cj2400101',
+      component: MainViewCJ2400101
     },
     {
       path: '/testmqtt',
@@ -46,6 +53,11 @@ const router = createRouter({
       path: '/cw1_1',
       name: 'cw1_1',
       component: CW1_1Device
+    },
+    {
+      path: '/device_cj2400101',
+      name: 'device_cj2400101',
+      component: DeviceCJ2400101
     },
     {
       path: '/cw1_2',

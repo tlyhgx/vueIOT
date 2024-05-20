@@ -94,7 +94,7 @@
                 </div>
               </el-col>
               <!-- //HACK:是否需要日期选择 -->
-              <!-- //HACK22:此处要增加scroll ,会不会自动产生 -->
+
               <!--实时报警-->
               <el-col :span="6">
                 <div class="grid-content ep-bg-purple subbgcolor left-second-line shadow-border"
@@ -201,7 +201,7 @@ function readCoil() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   // console.log(bytes)
-  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
 }
 function readDiscreteInputs() {
   //0A0200000017397F
@@ -210,7 +210,7 @@ function readDiscreteInputs() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   // console.log(bytes)
-  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
 }
 function readHoldingRegister() {
   //0A03004d000654A4
@@ -222,13 +222,13 @@ function readHoldingRegister() {
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
 
   // console.log(bytes)
-  client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
 }
 async function readLastAlarm() {
   const response = await axios.get('http://localhost:8000/cclj/get_last_alarm/',
     {
       params: {
-        device_code: 'cj2400101',
+        device_code: 'CJ2400102',
       }
     }
   )
@@ -260,7 +260,7 @@ async function readDailySummaryByMonth() {
     {
       params: {
         current_datetime: currentDate,
-        device_code: 'cj2400101',
+        device_code: 'CJ2400102',
         content_code: 'weight'
       }
     }
@@ -274,7 +274,7 @@ async function readDailyList() {
     {
       params: {
         current_datetime: currentDate,
-        device_code: 'cj2400101',
+        device_code: 'CJ2400102',
         content_code: 'weight'
       }
     }
@@ -287,13 +287,13 @@ async function readDailyList() {
 client.on('connect', () => {
   console.log('connected')
   connected.value = true
-  client.subscribe('/CJ2400101/PUBDIS', { qos: 0 }, (err) => {
+  client.subscribe('/CJ2400102/PUBDIS', { qos: 0 }, (err) => {
     if (!err) {
       console.log('subscribed  dio')
-      // client.publish('/CJ2400101/PUBDIS', 'Hello mqtt')
+      // client.publish('/CJ2400102/PUBDIS', 'Hello mqtt')
     }
   })
-  client.subscribe('/CJ2400101/WILL', { qos: 2, retain: false })
+  client.subscribe('/CJ2400102/WILL', { qos: 2, retain: false })
 })
 
 client.on('message', (topic, message) => {

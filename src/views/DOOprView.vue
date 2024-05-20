@@ -1,5 +1,5 @@
 <template>
-    <!-- //TODO:居中 ，字体变大，文字居中，拉开距离 -->
+
     <div class="flex flex-wrap gap-4">
         <el-card style="max-width: 200px;" shadow="always">
             <h2 style="display: flex;justify-content: center;">除臭风机</h2>
@@ -47,6 +47,7 @@
 
 </template>
 <script setup lang="ts">
+//XXX333:输出时，要注意现场安全，包括逻辑方面，如电机正反转不能同时给定
 import mqtt from 'mqtt'
 const options = {
     clean: true,
@@ -104,6 +105,6 @@ function push2_3Off() {
 function publish(hexArray: string[]) {
     // 转换为字节数组
     let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
-    client.publish('/CJ2400101/SUBDIS', bytes, { qos: 0, retain: false })
+    client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
 }
 </script>
