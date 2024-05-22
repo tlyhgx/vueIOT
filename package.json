@@ -14,6 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "chart.js": "^4.4.2",
     "crypto-js": "^4.2.0",
     "echarts": "^5.5.0",
@@ -31,8 +32,11 @@
     "@rushstack/eslint-patch": "^1.3.3",
     "@testing-library/vue": "^8.0.3",
     "@tsconfig/node20": "^20.1.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/jsdom": "^21.1.6",
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20.11.28",
+    "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
     "@vue/eslint-config-prettier": "^8.0.0",

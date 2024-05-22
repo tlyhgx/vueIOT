@@ -5,7 +5,7 @@
     <div style="padding-left: 10px">{{ name || '未设置名称' }}</div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { toRefs } from 'vue'
 const props = defineProps({
   name: String,

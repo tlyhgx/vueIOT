@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, type Ref } from 'vue'
 import mqtt from 'mqtt'
 
 const connected = ref(false)
+import * as buffer from "buffer";
+if (typeof (window as any).Buffer === "undefined") {
+    (window as any).Buffer = buffer.Buffer;
+}
 // Connection options
 //https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
 //https://www.emqx.com/en/blog/mqtt-js-tutorial
-const options = {
+const options:mqtt.IClientOptions = {
   clean: true,
   connectTimeout: 4000,
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -16,7 +20,7 @@ const options = {
   reconnectPeriod: 1000,
   will: {
     topic: '/will',
-    payload: 'Offline',
+    payload: Buffer.from('Offline'),
     qos: 1,
     retain: false
   },
@@ -24,7 +28,7 @@ const options = {
 }
 const client = mqtt.connect('ws://106.14.181.182:9001', options)
 
-const messages = ref([])
+const messages:Ref<(string|number| symbol | undefined)[]> = ref([])
 
 function outPut() {
   // let ask: string = '0A050009FF005D43'
@@ -36,7 +40,7 @@ function outPut() {
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
 
   // console.log(bytes)
-  client.publish('/CJ2400102/SUBDIS', bytes)
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes))
 }
 function outPutOff() {
   // let askOff: string = '0A05000900001CB3'
@@ -46,7 +50,7 @@ function outPutOff() {
   // 转换为字节数组
 
   let bytesOff: Uint8Array = new Uint8Array(hexArrayOff.map((h) => parseInt(h, 16)))
-  client.publish('/CJ2400102/SUBDIS', bytesOff)
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytesOff))
 }
 function readCoil() {
   let hexArray: string[] = ['0A', '01', '00', '08', '00', '03', 'FC', 'B2']
@@ -54,7 +58,7 @@ function readCoil() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   console.log(bytes)
-  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes), { qos: 0, retain: false })
 }
 
 client.on('connect', () => {
@@ -71,10 +75,10 @@ client.on('connect', () => {
 
 client.on('message', (topic, message) => {
   const msgRecieved = message.toString()
-  const encoder = new TextEncoder()
-  const result = encoder.encode(msgRecieved)
+  // const encoder = new TextEncoder()
+  // const result = encoder.encode(msgRecieved)
   // console.log(result)
-  messages.value.push(result)
+  // messages.value.push(result)
   messages.value.push(msgRecieved)
 })
 

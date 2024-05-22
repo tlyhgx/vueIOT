@@ -20,19 +20,22 @@ test('hex', () => {
 
 test('byteToBitArray', () => {
   let res: boolean[] = byteToBitArray(0x18)
-  expect(res[3]).toEqual(1)
-  expect(res[4]).toEqual(1)
-  expect(res).toEqual([0, 0, 0, 1, 1, 0, 0, 0])
+  expect(res[3]).toEqual(true)
+  expect(res[4]).toEqual(true)
+  // expect(res[3]).toEqual(1)
+  // expect(res[4]).toEqual(1)
+  expect(res).toEqual([false, false, false, true, true, false, false, false])
+  // expect(res).toEqual([0, 0, 0, 1, 1, 0, 0, 0])
   res = byteToBitArray(18)
-  expect(res[3]).toEqual(1)
-  expect(res[4]).toEqual(0)
-  expect(res).toEqual([0, 0, 0, 1, 0, 0, 1, 0])
+  expect(res[3]).toEqual(true)
+  expect(res[4]).toEqual(false)
+  expect(res).toEqual([false, false, false, true, false, false, true, false])
 })
 
 test('bytesToBitArray', () => {
   const res: boolean[] = bytesToBitArray([0x31, 0x01])
   // expect(res).toEqual([0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1])
-  expect(res).toEqual([1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
+  expect(res).toEqual([true, false, false, false, true, true, false, false, true, false, false, false, false, false, false, false])
 })
 
 test('stringToUint8Array', () => {
@@ -75,22 +78,11 @@ test('加密', () => {
   expect(hash).toEqual('7b77e79744fd7213bf92af2fb62e04bc7236c833d94fa61ae023df74150e8f9d')
 })
 
-
-
 test('crc', () => {
   const dataHexString = '0A0300010002' //94B0
-  console.log(MODBUS_CRC(new Buffer("0A0300010002","hex")))   //输出 94B0
-
+  console.log(MODBUS_CRC(new Buffer('0A0300010002', 'hex'))) //输出 94B0
 
   const dataHexString1 = '020300320012' //94B0
-  const res=MODBUS_CRC(new Buffer("020300320012","hex"))
-  console.log(res)   //输出 643B
- 
- 
+  const res = MODBUS_CRC(new Buffer('020300320012', 'hex'))
+  console.log(res) //输出 643B
 })
-
-
-
-
-  
-

@@ -10,10 +10,26 @@ import * as echarts from 'echarts'
 
 const chart = ref(null)
 const props = defineProps({
-  input_temp1: Number,
-  input_temp2: Number,
-  input_temp3: Number,
-  input_time: String
+  input_temp1: {
+    type: Number,
+    required: true,  // 这表示 'xxx' 是可选的
+    default: Number  // 这表示 'xxx' 的默认值是 'undefined'
+  },
+  input_temp2: {
+    type: Number,
+    required: true,  // 这表示 'xxx' 是可选的
+    default: Number  // 这表示 'xxx' 的默认值是 'undefined'
+  },
+  input_temp3: {
+    type: Number,
+    required: true,  // 这表示 'xxx' 是可选的
+    default: Number  // 这表示 'xxx' 的默认值是 'undefined'
+  },
+  input_time: {
+    type: String,
+    required: true,  // 这表示 'xxx' 是可选的
+    default: String  // 这表示 'xxx' 的默认值是 'undefined'
+  },
 })
 let temp_time: string[] = []
 let temp1s: number[] = []

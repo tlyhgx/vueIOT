@@ -7,6 +7,9 @@
 //TODO22:提供参数读取界面
 //TODO122:报警实时读取在vue中，历史记录要500条
 
+//TODO22:总屏幕显示概要，是否在线、是否 运行、日清单、可查询日汇总、显示当前故障（从vue-->数据库）1分钟读一次；分屏幕显示设备实时信息（从vue-->设备）
+
+//XXXX:保存所有收到信息到 数据库，后期 整理。。。。发出  1 块   整理1块
 
 //TODO111:fastapi 暂时 部署 开发模式  uvicorn main:app  --host 0.0.0.0 --reload，后面 要  gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --daemon  以及  nginx
 //TODO2222:开发阶段对要求登录的页面,和访问fastapi未限制,后期补上，页面参考 register,在router中meta加要求；fastapi参考 register的 token: str = Depends(oauth2_scheme)

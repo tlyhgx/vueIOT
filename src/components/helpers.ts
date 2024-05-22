@@ -18,7 +18,7 @@ export function hexToBytes(hex: string) {
 export function byteToBitArray(byte: number) {
   const bitArray: boolean[] = []
   for (let i: number = 7; i >= 0; i--) {
-    bitArray.push((byte >> i) & 1)
+    bitArray.push(Boolean((byte >> i) & 1))
   }
   return bitArray
 }
@@ -70,7 +70,7 @@ export function emcryption(original_value: string) {
  * @returns {any[]}  十六进制高低位
  * @constructor
  */
-export function MODBUS_CRC(data) {
+export function MODBUS_CRC(data:Buffer) {
   let crcValue = 0xffff
   for (let i = 0; i < data.length; i++) {
     crcValue ^= data[i] & 0xffff
@@ -84,10 +84,10 @@ export function MODBUS_CRC(data) {
     }
   }
 
-  crcValue = crcValue.toString(16)
+  const _crcValue = crcValue.toString(16)
   // console.log(crcValue)
   const crcArr = new Array(2)
-  crcArr[0] = crcValue.substring(2, 4)
-  crcArr[1] = crcValue.substring(0, 2)
+  crcArr[0] = _crcValue.substring(2, 4)
+  crcArr[1] = _crcValue.substring(0, 2)
   return crcArr[0] + crcArr[1]
 }

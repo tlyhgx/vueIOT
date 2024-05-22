@@ -49,7 +49,11 @@
 <script setup lang="ts">
 //XXX333:输出时，要注意现场安全，包括逻辑方面，如电机正反转不能同时给定
 import mqtt from 'mqtt'
-const options = {
+import * as buffer from "buffer";
+if (typeof (window as any).Buffer === "undefined") {
+    (window as any).Buffer = buffer.Buffer;
+}
+const options :mqtt.IClientOptions= {
     clean: true,
     connectTimeout: 6000,
     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -59,7 +63,7 @@ const options = {
     reconnectPeriod: 1000,
     will: {
         topic: '/will',
-        payload: 'Offline',
+        payload: Buffer.from('Offline'),
         qos: 1,
         retain: false
     },
@@ -105,6 +109,6 @@ function push2_3Off() {
 function publish(hexArray: string[]) {
     // 转换为字节数组
     let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
-    client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
+    client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes), { qos: 0, retain: false })
 }
 </script>

@@ -121,8 +121,7 @@
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
 
-                  <BarChartStyle01 :_date=Dairy_list_date.values :_value=Dairy_list_value.values _title="日清单"
-                    _legend="重量(kg)" />
+                  <BarChartStyle01 :_date=Dairy_list_date :_value=Dairy_list_value _title="日清单" _legend="重量(kg)" />
                 </div>
               </el-col>
             </el-row>
@@ -130,7 +129,7 @@
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple subbgcolor right-row-line shadow-border">
 
-                  <BarChartStyle01 :_date=Dairy_summary_date.values :_value=Dairy_summary_value.values _title="日汇总"
+                  <BarChartStyle01 :_date=Dairy_summary_date :_value=Dairy_summary_value _title="日汇总"
                     _legend="重量(kg)" />
                 </div>
               </el-col>
@@ -142,39 +141,43 @@
   </el-container>
 </template>
 <script lang="ts" setup>
-import { ref, onUnmounted, onMounted } from 'vue'
+import { ref, onUnmounted, onMounted, type Ref } from 'vue'
 import mqtt from 'mqtt'
 import DIOStateDisplay from '@/components/DIOStateDisplay.vue'
 import BarChartStyle01 from '@/components/BarChartStyle01.vue'
 import LineChartStyle01 from '@/components/LineChartStyle01.vue'
 import { bytesToBitArray, bytes4_Float } from '@/components/helpers'
 import axios from 'axios';
-const activities = ref([])
+const activities: Ref<{ [key: string]: string }[]> = ref([])
 let timer_dio: ReturnType<typeof setInterval> | null = null
 let timer_temp: ReturnType<typeof setInterval> | null = null
 let timer_alarm: ReturnType<typeof setInterval> | null = null
-const DO_state_bitArray = ref([]) //输出状态组
-const DI_state_bitArray = ref([]) //输入状态组
-const AI_temp1_data: number = ref() //模拟量1
-const AI_temp2_data: number = ref() //模拟量2
-const AI_temp3_data: number = ref() //模拟量3
-const AI_temp_time: string = ref() //时间
-let Dairy_summary_date = ref([])
-let Dairy_summary_value = ref([])
-let Dairy_list_date = ref([])
-let Dairy_list_value = ref([])
+const DO_state_bitArray: Ref<boolean[]> = ref([]) //输出状态组
+const DI_state_bitArray: Ref<boolean[]> = ref([]) //输入状态组
+const AI_temp1_data: Ref<number> = ref(0) //模拟量1
+const AI_temp2_data: Ref<number> = ref(0)//模拟量2
+const AI_temp3_data: Ref<number> = ref(0)//模拟量3
+const AI_temp_time: Ref<string> = ref('') //时间
+let Dairy_summary_date: Ref<string[]> = ref([])
+let Dairy_summary_value: Ref<string[]> = ref([])
+let Dairy_list_date: Ref<string[]> = ref([])
+let Dairy_list_value: Ref<string[]> = ref([])
 const currentTime = ref(new Date().toLocaleString());
-let newAlarmInfo: string = ref()
-let lastAlarmInfo: string = ref()
+let newAlarmInfo: Ref<string> = ref('')
+let lastAlarmInfo: Ref<string> = ref('')
 const alarmInfoColor = ref()
 let intervalId: number;
 const connected = ref(false)
 const isOnline = ref(true)
+import * as buffer from "buffer";    //HACK3333:出现多次要重构到库
+if (typeof (window as any).Buffer === "undefined") {
+  (window as any).Buffer = buffer.Buffer;
+}
 // Connection options
 //https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#client
 //https://www.emqx.com/en/blog/mqtt-js-tutorial
 
-const options = {
+const options: mqtt.IClientOptions = {
   clean: true,
   connectTimeout: 6000,
   clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -184,7 +187,7 @@ const options = {
   reconnectPeriod: 1000,
   will: {
     topic: '/will',
-    payload: 'Offline',
+    payload: Buffer.from('Offline'),
     qos: 1,
     retain: false
   },
@@ -201,7 +204,7 @@ function readCoil() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   // console.log(bytes)
-  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes), { qos: 0, retain: false })
 }
 function readDiscreteInputs() {
   //0A0200000017397F
@@ -210,7 +213,7 @@ function readDiscreteInputs() {
   // 转换为字节数组
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
   // console.log(bytes)
-  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes.buffer), { qos: 0, retain: false })
 }
 function readHoldingRegister() {
   //0A03004d000654A4
@@ -222,7 +225,7 @@ function readHoldingRegister() {
   let bytes: Uint8Array = new Uint8Array(hexArray.map((h) => parseInt(h, 16)))
 
   // console.log(bytes)
-  client.publish('/CJ2400102/SUBDIS', bytes, { qos: 0, retain: false })
+  client.publish('/CJ2400102/SUBDIS', Buffer.from(bytes.buffer), { qos: 0, retain: false })
 }
 async function readLastAlarm() {
   const response = await axios.get('http://localhost:8000/cclj/get_last_alarm/',
@@ -265,8 +268,8 @@ async function readDailySummaryByMonth() {
       }
     }
   )
-  Dairy_summary_date.value.values = response.data._date
-  Dairy_summary_value.value.values = response.data._value
+  Dairy_summary_date.value = response.data._date
+  Dairy_summary_value.value = response.data._value
 }
 async function readDailyList() {
   let currentDate = new Date();
@@ -279,8 +282,8 @@ async function readDailyList() {
       }
     }
   )
-  Dairy_list_date.value.values = response.data._date
-  Dairy_list_value.value.values = response.data._value
+  Dairy_list_date.value = response.data._date
+  Dairy_list_value.value = response.data._value
   // console.log(Dairy_list_date.value)
 }
 
@@ -293,20 +296,22 @@ client.on('connect', () => {
       // client.publish('/CJ2400102/PUBDIS', 'Hello mqtt')
     }
   })
-  client.subscribe('/CJ2400102/WILL', { qos: 2, retain: false })
+  client.subscribe('/CJ2400102/WILL', { qos: 2 })
 })
 
 client.on('message', (topic, message) => {
-  console.log(message)
+  // console.log(message)
   isOnline.value = true
   //message[1]是功能代码  1：读coil状态  2：读discrete inputs 状态
   //     3:读保持寄存器      102：offline的第一个f   119: www.usr 心跳包 的第二个 w
   //message[2] 的12是 温度组返回长度  如 10, 3, 12, 64, 182, 102, 102, 0, 0, 0, 0, 0, 0, 0, 0, 241, 1,
-  if (message[1] == 1) {
-    DO_state_bitArray.value = bytesToBitArray(message.subarray(3, 6))
+  let messageArray = [...message]
+  if (messageArray[1] == 1) {
+
+    DO_state_bitArray.value = bytesToBitArray(messageArray.slice(3, 6))
     // console.log(DO_state_bitArray.value)
   } else if (message[1] == 2) {
-    DI_state_bitArray.value = bytesToBitArray(message.subarray(3, 6))
+    DI_state_bitArray.value = bytesToBitArray(messageArray.slice(3, 6))
     // console.log(DI_state_bitArray.value)
   } else if (message[1] == 3 && message[2] == 12) {
     // 获取当前日期和时间
@@ -314,9 +319,9 @@ client.on('message', (topic, message) => {
     // 获取当前时间
     const time = now.toTimeString()
 
-    AI_temp1_data.value = bytes4_Float(message.subarray(3, 7))
-    AI_temp2_data.value = bytes4_Float(message.subarray(7, 11))
-    AI_temp3_data.value = bytes4_Float(message.subarray(11, 15))
+    AI_temp1_data.value = bytes4_Float(messageArray.slice(3, 7))
+    AI_temp2_data.value = bytes4_Float(messageArray.slice(7, 11))
+    AI_temp3_data.value = bytes4_Float(messageArray.slice(11, 15))
     AI_temp_time.value = time.slice(0, 8)
   } else if (message[1] == 102) {
     isOnline.value = false
@@ -338,8 +343,8 @@ onMounted(() => {
 
   }, 3000);
   setTimeout(() => {
-        readHoldingRegister()
-    }, 1000)
+    readHoldingRegister()
+  }, 1000)
   timer_temp = setInterval(() => {
     readHoldingRegister()
   }, 29000);
