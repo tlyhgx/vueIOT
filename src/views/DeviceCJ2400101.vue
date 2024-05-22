@@ -369,12 +369,15 @@ onMounted(() => {
         }, 2000)
 
     }, 3000);
+    setTimeout(() => {
+        readHoldingRegister()
+    }, 1000)
     timer_temp = setInterval(() => {
         readHoldingRegister()
-    }, 8000);
+    }, 29000);
     timer_alarm = setInterval(() => {
         readLastAlarm()
-    }, 60000);
+    }, 61000);
 
 
 })
